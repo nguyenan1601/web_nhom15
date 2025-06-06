@@ -4,37 +4,101 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Phone;
+use App\Models\Brand;
 use App\Models\Category;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $featuredPhones = Phone::getFeaturedPhones(8);
-        $latestPhones = Phone::getLatestPhones(6);
-        $brands = Phone::getBrands(); // Collection hoặc array
+        // Lấy sản phẩm nổi bật
+        $featuredPhones = Phone::with(['brand', 'category'])
+            ->featured()
+            ->available()
+            ->limit(8)
+            ->get();
 
-        $categories = Category::getAllCategories();
+        // Lấy sản phẩm mới nhất
+        $latestPhones = Phone::with(['brand', 'category'])
+            ->available()
+            ->latest()
+            ->limit(6)
+            ->get();
 
-        $brandPhones = [];
-        $popularBrands = ['iPhone', 'Samsung', 'Xiaomi', 'Oppo'];
+        // Lấy thương hiệu nổi bật
+        $featuredBrands = Brand::active()
+            ->featured()
+            ->ordered()
+            ->limit(6)
+            ->get();
 
-        foreach ($popularBrands as $brand) {
-            // Dùng contains cho Collection
-            if ($brands->contains($brand)) {
-                $brandPhones[$brand] = Phone::getPhonesByBrand($brand, 4);
-            }
+        // Lấy danh mục
+        $categories = Category::active()
+            ->ordered()
+            ->limit(8)
+            ->get();
+
+        // Sản phẩm bán chạy (giả lập bằng view_count)
+        $bestSellerPhones = Phone::with(['brand', 'category'])
+            ->available()
+            ->orderBy('view_count', 'desc')
+            ->limit(4)
+            ->get();
+
+        return view('home', compact(
+            'featuredPhones',
+            'latestPhones', 
+            'featuredBrands',
+            'categories',
+            'bestSellerPhones'
+        ));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $brandId = $request->get('brand');
+        $categoryId = $request->get('category');
+        $minPrice = $request->get('min_price');
+        $maxPrice = $request->get('max_price');
+
+        $phones = Phone::with(['brand', 'category'])
+            ->available();
+
+        if ($query) {
+            $phones->where(function($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%")
+                  ->orWhere('description', 'like', "%{$query}%")
+                  ->orWhere('model', 'like', "%{$query}%");
+            });
         }
 
-        $data = [
-            'page_title' => 'Trang chủ - Cửa hàng điện thoại',
-            'featured_phones' => $featuredPhones,
-            'latest_phones' => $latestPhones,
-            'brand_phones' => $brandPhones,
-            'brands' => $brands,
-            'categories' => $categories
-        ];
+        if ($brandId) {
+            $phones->byBrand($brandId);
+        }
 
-        return view('home', $data);
+        if ($categoryId) {
+            $phones->byCategory($categoryId);
+        }
+
+        if ($minPrice && $maxPrice) {
+            $phones->priceRange($minPrice, $maxPrice);
+        }
+
+        $phones = $phones->paginate(12);
+
+        $brands = Brand::active()->ordered()->get();
+        $categories = Category::active()->ordered()->get();
+
+        return view('phones.search', compact(
+            'phones', 
+            'brands', 
+            'categories',
+            'query',
+            'brandId',
+            'categoryId',
+            'minPrice',
+            'maxPrice'
+        ));
     }
 }
