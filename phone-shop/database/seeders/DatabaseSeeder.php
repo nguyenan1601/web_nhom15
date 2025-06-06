@@ -12,11 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Chạy seeders theo thứ tự để tránh lỗi foreign key
+        $this->call([
+            BrandSeeder::class,
+            CategorySeeder::class,
+            PhoneSeeder::class,
+        ]);
+        
+        $this->command->info('🎉 Database seeding completed successfully!');
+        $this->command->info('📱 Created brands, categories and phones data');
+        $this->command->info('🔍 You can check data at: http://localhost/phpmyadmin');
     }
 }

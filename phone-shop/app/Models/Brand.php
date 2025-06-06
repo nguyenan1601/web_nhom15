@@ -1,22 +1,32 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model
+class Brand extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories'; // bảng categories
-
     protected $fillable = [
-        'name', 'status', 'sort_order', 'created_at', 'updated_at'
+        'name',
+        'slug',
+        'description',
+        'logo',
+        'country',
+        'website',
+        'status',
+        'sort_order',
+        'is_featured',
+        'meta_data'
     ];
 
     protected $casts = [
-        'sort_order' => 'integer'
+        'is_featured' => 'boolean',
+        'sort_order' => 'integer',
+        'meta_data' => 'json'
     ];
 
     // Relationships
@@ -31,6 +41,11 @@ class Category extends Model
         return $query->where('status', 'active');
     }
 
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('name');
@@ -40,13 +55,5 @@ class Category extends Model
     public function getPhonesCountAttribute()
     {
         return $this->phones()->where('status', 'active')->count();
-    }
-
-    // Lấy danh sách category đang active, sắp xếp theo sort_order
-    public static function getAllCategories()
-    {
-        return self::where('status', 'active')
-            ->orderBy('sort_order')
-            ->get();
     }
 }
