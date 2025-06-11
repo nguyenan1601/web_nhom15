@@ -47,7 +47,7 @@
 
     <div class="row">
         <!-- Filters Sidebar -->
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-3 mb-4" style="z-index: 0">
             <div class="card sticky-top" style="top: 100px;">
                 <div class="card-header">
                     <h6 class="mb-0"><i class="fas fa-filter me-2"></i>Bộ Lọc</h6>

@@ -271,7 +271,7 @@
                             <i class="fas fa-mobile-alt me-1"></i>Sản Phẩm
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('brands.index') }}">
                             <i class="fas fa-tags me-1"></i>Thương Hiệu
                         </a>
@@ -280,14 +280,14 @@
                         <a class="nav-link" href="{{ route('categories.index') }}">
                             <i class="fas fa-list me-1"></i>Danh Mục
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">
                             <i class="fas fa-info-circle me-1"></i>Về Chúng Tôi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contact') }}">
+                        <a class="nav-link" href="#contact">
                             <i class="fas fa-phone me-1"></i>Liên Hệ
                         </a>
                     </li>
@@ -330,7 +330,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-5">
+    <footer id="contact" class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 mb-4">
@@ -367,7 +367,7 @@
                 <div class="col-md-3 mb-4">
                     <h5>Liên Hệ</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận 1, TP.HCM</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận Hà Đông, Hà Nội</li>
                         <li><i class="fas fa-phone me-2"></i>0123 456 789</li>
                         <li><i class="fas fa-envelope me-2"></i>info@phoneshop.vn</li>
                         <li><i class="fas fa-clock me-2"></i>T2-CN: 8:00 - 22:00</li>
