@@ -179,9 +179,9 @@
         padding: 40px 0 20px;
     }
 
-    .text-muted {
+    /* .text-muted {
         color: white !important;
-    }
+    } */
 
     .footer h5 {
         color: var(--accent-color);
@@ -310,7 +310,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('orders.index') }}">
                             <i class="fas fa-shopping-cart me-1"></i>Giỏ Hàng
                         </a>
                     </li>

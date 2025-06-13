@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +38,10 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 // Các trang khác
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
+
+Route::resource('orders', OrderController::class)->only([
+    'index', 'show', 'destroy'
+]);
 
 Route::get('/check-url', function () {
     return config('app.url');

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB; // Đặt ở đầu file nếu chưa có
+
+
+
 
 class Order extends Model
 {
@@ -128,8 +132,12 @@ class Order extends Model
 
     public function calculateTotals()
     {
-        $this->subtotal = $this->orderItems()->sum(\DB::raw('unit_price * quantity'));
-        $this->total_amount = $this->subtotal + $this->tax_amount + $this->shipping_fee - $this->discount_amount;
+        $this->subtotal = $this->orderItems()->sum(DB::raw('unit_price * quantity'));
+        $this->total_amount = $this->subtotal
+            + ($this->tax_amount ?? 0)
+            + ($this->shipping_fee ?? 0)
+            - ($this->discount_amount ?? 0);
+
         $this->save();
     }
 
