@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Phone;
-use Illuminate\Support\Str;
 
 class PhoneSeeder extends Seeder
 {
@@ -21,8 +19,8 @@ class PhoneSeeder extends Seeder
                 'brand' => 'Apple',
                 'featured' => true,
                 'status' => 'active',
-                'category_id' => 1, // Smartphone Cao Cấp
-                'brand_id' => 1, // Apple
+                'category_id' => 1,
+                'brand_id' => 1,
                 'model' => 'A3108',
                 'price' => 34990000,
                 'original_price' => 36990000,
@@ -54,7 +52,8 @@ class PhoneSeeder extends Seeder
                 'ram' => '8GB',
                 'is_available' => true,
                 'view_count' => 1250,
-                'released_at' => '2023-09-22'
+                'released_at' => '2023-09-22',
+                'image_path' => 'images\iPhone 15 Pro Max crop.png'
             ],
             [
                 'name' => 'iPhone 14',
@@ -94,7 +93,8 @@ class PhoneSeeder extends Seeder
                 'ram' => '6GB',
                 'is_available' => true,
                 'view_count' => 890,
-                'released_at' => '2022-09-16'
+                'released_at' => '2022-09-16',
+                'image_path' => 'images\iPhone 14 crop.png'
             ],
             // Samsung Galaxy Models
             [
@@ -103,7 +103,7 @@ class PhoneSeeder extends Seeder
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1,
-                'brand_id' => 2, // Samsung
+                'brand_id' => 2,
                 'model' => 'SM-S928B',
                 'price' => 33990000,
                 'original_price' => 35990000,
@@ -135,14 +135,15 @@ class PhoneSeeder extends Seeder
                 'ram' => '12GB',
                 'is_available' => true,
                 'view_count' => 1100,
-                'released_at' => '2024-01-24'
+                'released_at' => '2024-01-24',
+                'image_path' => 'images\Samsung Galaxy S24 Ultra crop.png'
             ],
             [
                 'name' => 'Samsung Galaxy A55',
                 'brand' => 'Samsung',
                 'featured' => false,
                 'status' => 'active',
-                'category_id' => 2, // Smartphone Tầm Trung
+                'category_id' => 2,
                 'brand_id' => 2,
                 'model' => 'SM-A556B',
                 'price' => 10490000,
@@ -175,7 +176,8 @@ class PhoneSeeder extends Seeder
                 'ram' => '8GB',
                 'is_available' => true,
                 'view_count' => 450,
-                'released_at' => '2024-03-11'
+                'released_at' => '2024-03-11',
+                'image_path' => 'images\Galaxy A55 crop.png'
             ],
             // Xiaomi Models
             [
@@ -184,7 +186,7 @@ class PhoneSeeder extends Seeder
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1,
-                'brand_id' => 3, // Xiaomi
+                'brand_id' => 3,
                 'model' => '2405CPX3DG',
                 'price' => 29990000,
                 'original_price' => 31990000,
@@ -216,14 +218,15 @@ class PhoneSeeder extends Seeder
                 'ram' => '16GB',
                 'is_available' => true,
                 'view_count' => 680,
-                'released_at' => '2024-02-25'
+                'released_at' => '2024-02-25',
+                'image_path' => 'images\Xiaomi 14 Ultra crop.png'
             ],
             [
                 'name' => 'Xiaomi Redmi Note 13',
                 'brand' => 'Xiaomi',
                 'featured' => false,
                 'status' => 'active',
-                'category_id' => 3, // Smartphone Giá Rẻ
+                'category_id' => 3,
                 'brand_id' => 3,
                 'model' => '23124RN87G',
                 'price' => 4990000,
@@ -256,7 +259,8 @@ class PhoneSeeder extends Seeder
                 'ram' => '6GB',
                 'is_available' => true,
                 'view_count' => 750,
-                'released_at' => '2024-01-15'
+                'released_at' => '2024-01-15',
+                'image_path' => 'images\Redmi Note 13 crop.png'
             ]
         ];
 
