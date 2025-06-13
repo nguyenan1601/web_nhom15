@@ -28,8 +28,9 @@ trường Việt Nam.')
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                    alt="Smartphone Collection" class="img-fluid rounded-3 shadow-lg">
+                <img src="{{ asset('Images\Home-img.png') }}" alt="Smartphone Collection"
+                    class="img-fluid rounded-3 shadow-lg">
+
             </div>
         </div>
     </div>
@@ -90,17 +91,17 @@ trường Việt Nam.')
             @php
             $featuredBrands = [
             ['name' => 'Apple', 'slug' => 'apple', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg'],
+            'images\Apple-logo.png'],
             ['name' => 'Samsung', 'slug' => 'samsung', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg'],
+            'images\Samsung-logo.png'],
             ['name' => 'Xiaomi', 'slug' => 'xiaomi', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/a/ae/Xiaomi_logo_%282021-%29.svg'],
+            'images\Xiaomi-logo.png'],
             ['name' => 'Oppo', 'slug' => 'oppo', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/7/78/OPPO_LOGO_2019.svg'],
+            'images\oppo-logo.png'],
             ['name' => 'Vivo', 'slug' => 'vivo', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/9/99/Vivo_logo.svg'],
+            'images\Vivo-Logo.png'],
             ['name' => 'Realme', 'slug' => 'realme', 'logo' =>
-            'https://upload.wikimedia.org/wikipedia/commons/9/9b/Realme_logo.svg'],
+            'images\realme-logo.png'],
             ];
             @endphp
 
@@ -147,7 +148,7 @@ trường Việt Nam.')
             'sale_price' => 29990000,
             'discount' => 15,
             'image' =>
-            'https://images.unsplash.com/photo-1695048133142-1a20484d2569?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+            'images\iPhone 15 Pro Max crop.png'
             ],
             [
             'name' => 'Samsung Galaxy S24 Ultra',
@@ -156,7 +157,7 @@ trường Việt Nam.')
             'sale_price' => 24990000,
             'discount' => 17,
             'image' =>
-            'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+            'images\Samsung Galaxy S24 Ultra crop.png'
             ],
             [
             'name' => 'Xiaomi 14 Ultra',
@@ -165,7 +166,7 @@ trường Việt Nam.')
             'sale_price' => 19990000,
             'discount' => 20,
             'image' =>
-            'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+            'images\Xiaomi 14 Ultra crop.png'
             ]
             ];
             @endphp
@@ -225,7 +226,7 @@ trường Việt Nam.')
         'discount_percentage' => 9,
         'view_count' => 1250,
         'featured' => true,
-        'image' => 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+        'image' => 'images\iPhone 15 Pro Max crop.png'
         ],
         [
         'name' => 'Samsung Galaxy S24',
@@ -233,7 +234,7 @@ trường Việt Nam.')
         'price' => 22990000,
         'view_count' => 980,
         'featured' => true,
-        'image' => 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+        'image' => 'images\Samsung Galaxy S24 Ultra crop.png'
         ],
         [
         'name' => 'Xiaomi 14',
@@ -243,7 +244,7 @@ trường Việt Nam.')
         'discount_percentage' => 11,
         'view_count' => 756,
         'featured' => true,
-        'image' => 'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+        'image' => 'images\Xiaomi 14 Ultra crop.png'
         ],
         [
         'name' => 'Oppo Find X7',
@@ -251,7 +252,7 @@ trường Việt Nam.')
         'price' => 18990000,
         'view_count' => 642,
         'featured' => true,
-        'image' => 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&w=300&h=200&fit=crop'
+        'image' => 'images\Oppo Find X7 crop.png'
         ]
         ];
 
@@ -334,17 +335,17 @@ trường Việt Nam.')
         @php
         $sampleLatestPhones = [
         ['name' => 'iPhone 15 Plus', 'brand' => 'Apple', 'price' => 25990000, 'image' =>
-        'https://images.unsplash.com/photo-1695048133142-1a20484d2569?ixlib=rb-4.0.3&w=200&h=150&fit=crop'],
+        'images\iPhone 15 Pro Max crop.png'],
         ['name' => 'Galaxy A55', 'brand' => 'Samsung', 'price' => 10990000, 'image' =>
-        'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&w=200&h=150&fit=crop'],
+        'images\Galaxy A55 crop.png'],
         ['name' => 'Redmi Note 13', 'brand' => 'Xiaomi', 'price' => 5990000, 'image' =>
-        'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-4.0.3&w=200&h=150&fit=crop'],
+        'images\Redmi Note 13 crop.png'],
         ['name' => 'Oppo A79', 'brand' => 'Oppo', 'price' => 6990000, 'image' =>
-        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&w=200&h=150&fit=crop'],
+        'images\Oppo A79 crop.png'],
         ['name' => 'Vivo Y36', 'brand' => 'Vivo', 'price' => 4990000, 'image' =>
-        'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&w=200&h=150&fit=crop'],
+        'images\Vivo Y36 crop.png'],
         ['name' => 'Realme 11', 'brand' => 'Realme', 'price' => 7990000, 'image' =>
-        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&w=200&h=150&fit=crop']
+        'images\Realme_11.png']
         ];
 
         $latestPhones = isset($latestPhones) ? $latestPhones : collect($sampleLatestPhones)->map(function($phone) {
@@ -395,13 +396,13 @@ trường Việt Nam.')
         @php
         $sampleBestSellers = [
         ['name' => 'iPhone 14', 'brand' => 'Apple', 'price' => 19990000, 'view_count' => 2450, 'image' =>
-        'https://images.unsplash.com/photo-1695048133142-1a20484d2569?ixlib=rb-4.0.3&w=300&h=200&fit=crop'],
+        'images\iPhone 14 crop.png'],
         ['name' => 'Galaxy A54', 'brand' => 'Samsung', 'price' => 9990000, 'view_count' => 1890, 'image' =>
-        'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&w=300&h=200&fit=crop'],
+        'images\Galaxy A54 crop.png'],
         ['name' => 'Redmi 12', 'brand' => 'Xiaomi', 'price' => 4990000, 'view_count' => 1650, 'image' =>
-        'https://images.unsplash.com/photo-1567581935884-3349723552ca?ixlib=rb-4.0.3&w=300&h=200&fit=crop'],
+        'images\Redmi 12 crop.png'],
         ['name' => 'Oppo A58', 'brand' => 'Oppo', 'price' => 5490000, 'view_count' => 1320, 'image' =>
-        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&w=300&h=200&fit=crop']
+        'images\Oppo A58 crop.png']
         ];
 
         $bestSellerPhones = isset($bestSellerPhones) ? $bestSellerPhones :

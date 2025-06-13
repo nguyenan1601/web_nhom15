@@ -179,9 +179,9 @@
         padding: 40px 0 20px;
     }
 
-    /* .text-muted {
+    .text-muted1 {
         color: white !important;
-    } */
+    }
 
     .footer h5 {
         color: var(--accent-color);
@@ -273,8 +273,8 @@
                     </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('brands.index') }}">
-                            <i class="fas fa-tags me-1"></i>Thương Hiệu
-                        </a>
+                    <i class="fas fa-tags me-1"></i>Thương Hiệu
+                    </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('categories.index') }}">
@@ -335,7 +335,7 @@
             <div class="row">
                 <div class="col-md-3 mb-4">
                     <h5><i class="fas fa-mobile-alt me-2"></i>PhoneShop</h5>
-                    <p class="text-muted">Cửa hàng điện thoại uy tín, chính hãng với giá tốt nhất thị trường.</p>
+                    <p class="text-muted1">Cửa hàng điện thoại uy tín, chính hãng với giá tốt nhất thị trường.</p>
                     <div class="social-links">
                         <a href="#" class="me-3"><i class="fab fa-facebook fa-lg"></i></a>
                         <a href="#" class="me-3"><i class="fab fa-instagram fa-lg"></i></a>
