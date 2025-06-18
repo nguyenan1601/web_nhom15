@@ -247,7 +247,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
@@ -310,7 +310,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('orders.index') }}">
+                        <a class="nav-link" href="{{ route('cart.index') }}">
                             <i class="fas fa-shopping-cart me-1"></i>Giỏ Hàng
                         </a>
                     </li>
@@ -325,7 +325,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main class="flex-grow-1">
         @yield('content')
     </main>
 

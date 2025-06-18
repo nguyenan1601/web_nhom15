@@ -43,6 +43,14 @@ Route::resource('orders', OrderController::class)->only([
     'index', 'show', 'destroy'
 ]);
 
+// Giỏ hàng
+use App\Http\Controllers\CartController;
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
 Route::get('/check-url', function () {
     return config('app.url');
 });
