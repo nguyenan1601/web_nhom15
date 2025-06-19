@@ -7,122 +7,52 @@ use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+
 class PhoneController extends Controller
+{public function index(Request $request)
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        $phones = Phone::with(['brand', 'category'])
-            ->available();
+    $phones = Phone::with(['brand', 'category'])
+        ->available();
 
-        // Filters
-        if ($request->brand) {
-            $phones->byBrand($request->brand);
-        }
-
-        if ($request->category) {
-            $phones->byCategory($request->category);
-        }
-
-        if ($request->min_price && $request->max_price) {
-            $phones->priceRange($request->min_price, $request->max_price);
-        }
-
-        // Sorting
-        switch ($request->sort) {
-            case 'price_asc':
-                $phones->orderBy('price', 'asc');
-                break;
-            case 'price_desc':
-                $phones->orderBy('price', 'desc');
-                break;
-            case 'name_asc':
-                $phones->orderBy('name', 'asc');
-                break;
-            case 'newest':
-                $phones->latest();
-                break;
-            case 'popular':
-                $phones->orderBy('view_count', 'desc');
-                break;
-            default:
-                $phones->featured()->latest();
-        }
-
-        $phones = $phones->paginate(12);
-
-        $brands = Brand::active()->ordered()->get();
-        $categories = Category::active()->ordered()->get();
-
-        return view('phones.index', compact('phones', 'brands', 'categories'));
+    // Filters
+    if ($request->brand) {
+        $phones->byBrand($request->brand);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    if ($request->category) {
+        $phones->byCategory($request->category);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    if ($request->min_price && $request->max_price) {
+        $phones->priceRange($request->min_price, $request->max_price);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Phone $phone)
-    {
-        // Tăng view count
-        $phone->increment('view_count');
-
-        // Load relationships
-        $phone->load(['brand', 'category', 'images', 'reviews' => function($query) {
-            $query->where('status', 'approved')->with('customer')->latest();
-        }]);
-
-        // Sản phẩm liên quan (cùng thương hiệu hoặc danh mục)
-        $relatedPhones = Phone::with(['brand', 'category'])
-            ->available()
-            ->where('id', '!=', $phone->id)
-            ->where(function($query) use ($phone) {
-                $query->where('brand_id', $phone->brand_id)
-                      ->orWhere('category_id', $phone->category_id);
-            })
-            ->limit(4)
-            ->get();
-
-        return view('phones.show', compact('phone', 'relatedPhones'));
+    // Sorting - Sửa lỗi ở phần này
+    $sort = $request->get('sort', 'featured');
+    switch ($sort) {
+        case 'newest':
+            $phones->orderBy('released_at', 'desc');
+            break;
+        case 'price_asc':
+            $phones->orderBy('price', 'asc');
+            break;
+        case 'price_desc':
+            $phones->orderBy('price', 'desc');
+            break;
+        case 'popular':
+            $phones->orderBy('view_count', 'desc');
+            break;
+        case 'featured':
+        default:
+            $phones->featured()->orderBy('sort_order', 'asc');
+            break;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Phone $phone)
-    {
-        //
-    }
+    $phones = $phones->paginate(12);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Phone $phone)
-    {
-        //
-    }
+    $brands = Brand::active()->ordered()->get();
+    $categories = Category::active()->ordered()->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Phone $phone)
-    {
-        //
-    }
+    return view('phones.index', compact('phones', 'brands', 'categories'));
+}
 }

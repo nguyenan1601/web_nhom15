@@ -198,16 +198,28 @@
         color: white;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-        .search-box {
-            margin-top: 15px;
-            width: 100%;
-        }
+    /* Dropdown Menu */
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 10px;
+    }
 
-        .hero-section {
-            padding: 40px 0;
-        }
+    .dropdown-item {
+        padding: 8px 20px;
+        color: var(--dark-color);
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: var(--primary-color);
+    }
+
+    .dropdown-divider {
+        margin: 0.5rem 0;
+        border-color: var(--border-color);
     }
 
     /* Loading Animation */
@@ -314,11 +326,45 @@
                             <i class="fas fa-shopping-cart me-1"></i>Giỏ Hàng
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="# ">
-                            <i class="fas fa-user me-1"></i>Tài Khoản
-                        </a>
-                    </li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Đăng Nhập
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus me-1"></i>Đăng Ký
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user me-1"></i>{{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user-circle me-2"></i>Thông tin tài khoản
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-history me-2"></i>Lịch sử đơn hàng
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>

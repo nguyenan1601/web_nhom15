@@ -72,10 +72,7 @@ class Phone extends Model
         return $this->hasMany(PhoneImage::class);
     }
 
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
-    }
+   
 
     public function orderItems(): HasMany
     {
@@ -176,4 +173,8 @@ class Phone extends Model
             ->orderBy('brand')
             ->pluck('brand');
     }
+//     public function brand()
+// {
+//     return $this->belongsTo(Brand::class);
+// }
 }

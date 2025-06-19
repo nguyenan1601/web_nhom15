@@ -148,7 +148,7 @@ trường Việt Nam.')
             'sale_price' => 29990000,
             'discount' => 15,
             'image' =>
-            'images\iPhone 15 Pro Max crop.png'
+            'D:\xampp1\htdocs\web_nhom15\phone-shop\public\images\iPhone 15 Pro Max crop.png'
             ],
             [
             'name' => 'Samsung Galaxy S24 Ultra',
@@ -286,9 +286,9 @@ trường Việt Nam.')
 
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">{{ $phone->name }}</h6>
-                        <p class="text-muted small mb-2">
+                        {{-- <p class="text-muted small mb-2">
                             <i class="fas fa-tag me-1"></i>{{ $phone->brand }}
-                        </p>
+                        </p> --}}
 
                         <div class="mt-auto">
                             <div class="d-flex align-items-center mb-2">
@@ -369,7 +369,7 @@ trường Việt Nam.')
 
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title small">{{ \Str::limit($phone->name, 20) }}</h6>
-                        <p class="text-muted small mb-2">{{ $phone->brand }}</p>
+                        {{-- <p class="text-muted small mb-2">{{ $phone->brand }}</p> --}}
 
                         <div class="mt-auto">
                             <div class="fw-bold text-primary small mb-2">{{ number_format($phone->price) }}₫</div>
@@ -427,7 +427,7 @@ trường Việt Nam.')
 
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">{{ $phone->name }}</h6>
-                        <p class="text-muted small mb-2">{{ $phone->brand }}</p>
+                        {{-- <p class="text-muted small mb-2">{{ $phone->brand }}</p> --}}
 
                         <div class="mt-auto">
                             <div class="fw-bold text-primary mb-2">{{ number_format($phone->price) }}₫</div>

@@ -33,13 +33,6 @@ return new class extends Migration
             $table->foreign('phone_id')->references('id')->on('phones')->onDelete('cascade');
         });
 
-        // Thêm foreign keys cho bảng reviews
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->foreign('phone_id')->references('id')->on('phones')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('set null');
-        });
-
         // Thêm foreign keys cho bảng wishlists
         Schema::table('wishlists', function (Blueprint $table) {
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
@@ -56,12 +49,6 @@ return new class extends Migration
         Schema::table('wishlists', function (Blueprint $table) {
             $table->dropForeign(['customer_id']);
             $table->dropForeign(['phone_id']);
-        });
-
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->dropForeign(['phone_id']);
-            $table->dropForeign(['customer_id']);
-            $table->dropForeign(['order_id']);
         });
 
         Schema::table('phone_images', function (Blueprint $table) {
@@ -81,5 +68,7 @@ return new class extends Migration
             $table->dropForeign(['category_id']);
             $table->dropForeign(['brand_id']);
         });
+
+
     }
 };

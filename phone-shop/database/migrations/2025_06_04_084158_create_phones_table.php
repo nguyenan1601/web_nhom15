@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('phones', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('brand');
-        $table->boolean('featured')->default(false);
-        $table->string('status')->default('active');
-        $table->timestamps();
-    });
+            $table->id();
+            $table->string('name');
+            $table->string('brand');
+            $table->boolean('featured')->default(false);
+            $table->string('status')->default('active');
+            $table->timestamps();
+        });
     }
 
     /**

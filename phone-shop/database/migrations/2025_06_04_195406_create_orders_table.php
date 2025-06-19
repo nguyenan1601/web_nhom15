@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('shipping_country')->default('Vietnam'); // Quốc gia
             
             $table->text('notes')->nullable(); // Ghi chú đơn hàng
-            $table->string('coupon_code')->nullable(); // Mã giảm giá
+            // $table->string('coupon_code')->nullable(); // Mã giảm giá
             $table->timestamp('shipped_at')->nullable(); // Thời gian giao hàng
             $table->timestamp('delivered_at')->nullable(); // Thời gian nhận hàng
             $table->json('tracking_info')->nullable(); // Thông tin theo dõi (JSON)

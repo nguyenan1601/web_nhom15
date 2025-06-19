@@ -18,7 +18,7 @@ class PhoneSeeder extends Seeder
             // iPhone Models
             [
                 'name' => 'iPhone 15 Pro Max',
-                'brand' => 'Apple',
+                // 'brand' => 'Apple',
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1, // Smartphone Cao Cấp
@@ -58,7 +58,7 @@ class PhoneSeeder extends Seeder
             ],
             [
                 'name' => 'iPhone 14',
-                'brand' => 'Apple',
+                // 'brand' => 'Apple',
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1,
@@ -99,7 +99,7 @@ class PhoneSeeder extends Seeder
             // Samsung Galaxy Models
             [
                 'name' => 'Samsung Galaxy S24 Ultra',
-                'brand' => 'Samsung',
+                // 'brand' => 'Samsung',
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1,
@@ -139,7 +139,7 @@ class PhoneSeeder extends Seeder
             ],
             [
                 'name' => 'Samsung Galaxy A55',
-                'brand' => 'Samsung',
+                // 'brand' => 'Samsung',
                 'featured' => false,
                 'status' => 'active',
                 'category_id' => 2, // Smartphone Tầm Trung
@@ -180,7 +180,7 @@ class PhoneSeeder extends Seeder
             // Xiaomi Models
             [
                 'name' => 'Xiaomi 14 Ultra',
-                'brand' => 'Xiaomi',
+                // 'brand' => 'Xiaomi',
                 'featured' => true,
                 'status' => 'active',
                 'category_id' => 1,
@@ -220,7 +220,7 @@ class PhoneSeeder extends Seeder
             ],
             [
                 'name' => 'Xiaomi Redmi Note 13',
-                'brand' => 'Xiaomi',
+                // 'brand' => 'Xiaomi',
                 'featured' => false,
                 'status' => 'active',
                 'category_id' => 3, // Smartphone Giá Rẻ
