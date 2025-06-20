@@ -17,6 +17,8 @@ return new class extends Migration
         $table->string('brand');
         $table->boolean('featured')->default(false);
         $table->string('status')->default('active');
+        $table->string('image_path')->nullable();
+
         $table->timestamps();
     });
     }

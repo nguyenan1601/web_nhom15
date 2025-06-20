@@ -26,20 +26,20 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'featured']) }}">
-                        <i class="fas fa-star me-2"></i>Nổi bật
-                    </a></li>
+                            <i class="fas fa-star me-2"></i>Nổi bật
+                        </a></li>
                     <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'newest']) }}">
-                        <i class="fas fa-clock me-2"></i>Mới nhất
-                    </a></li>
+                            <i class="fas fa-clock me-2"></i>Mới nhất
+                        </a></li>
                     <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'price_asc']) }}">
-                        <i class="fas fa-sort-amount-up me-2"></i>Giá thấp → cao
-                    </a></li>
+                            <i class="fas fa-sort-amount-up me-2"></i>Giá thấp → cao
+                        </a></li>
                     <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'price_desc']) }}">
-                        <i class="fas fa-sort-amount-down me-2"></i>Giá cao → thấp
-                    </a></li>
+                            <i class="fas fa-sort-amount-down me-2"></i>Giá cao → thấp
+                        </a></li>
                     <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'popular']) }}">
-                        <i class="fas fa-fire me-2"></i>Phổ biến
-                    </a></li>
+                            <i class="fas fa-fire me-2"></i>Phổ biến
+                        </a></li>
                 </ul>
             </div>
         </div>
@@ -58,10 +58,12 @@
                         <h6 class="fw-bold mb-3">Khoảng giá</h6>
                         <div class="row g-2">
                             <div class="col-6">
-                                <input type="number" class="form-control form-control-sm" placeholder="Từ" id="min_price" value="{{ request('min_price') }}">
+                                <input type="number" class="form-control form-control-sm" placeholder="Từ"
+                                    id="min_price" value="{{ request('min_price') }}">
                             </div>
                             <div class="col-6">
-                                <input type="number" class="form-control form-control-sm" placeholder="Đến" id="max_price" value="{{ request('max_price') }}">
+                                <input type="number" class="form-control form-control-sm" placeholder="Đến"
+                                    id="max_price" value="{{ request('max_price') }}">
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary btn-sm mt-2 w-100" onclick="applyPriceFilter()">
@@ -74,16 +76,17 @@
                         <h6 class="fw-bold mb-3">Thương hiệu</h6>
                         @foreach($brands as $brand)
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="brand" id="brand{{ $brand->id }}" 
-                                   value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'checked' : '' }}
-                                   onchange="applyBrandFilter({{ $brand->id }})">
+                            <input class="form-check-input" type="radio" name="brand" id="brand{{ $brand->id }}"
+                                value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'checked' : '' }}
+                                onchange="applyBrandFilter({{ $brand->id }})">
                             <label class="form-check-label" for="brand{{ $brand->id }}">
                                 {{ $brand->name }} ({{ $brand->phones_count ?? 0 }})
                             </label>
                         </div>
                         @endforeach
                         @if(request('brand'))
-                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="clearBrandFilter()">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                            onclick="clearBrandFilter()">
                             Xóa bộ lọc
                         </button>
                         @endif
@@ -94,16 +97,18 @@
                         <h6 class="fw-bold mb-3">Danh mục</h6>
                         @foreach($categories as $category)
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="category" id="category{{ $category->id }}" 
-                                   value="{{ $category->id }}" {{ request('category') ==$category->id ? 'checked' : '' }}
-                                   onchange="applyCategoryFilter({{ $category->id }})">
+                            <input class="form-check-input" type="radio" name="category"
+                                id="category{{ $category->id }}" value="{{ $category->id }}"
+                                {{ request('category') ==$category->id ? 'checked' : '' }}
+                                onchange="applyCategoryFilter({{ $category->id }})">
                             <label class="form-check-label" for="category{{ $category->id }}">
                                 {{ $category->name }} ({{ $category->phones_count ?? 0 }})
                             </label>
                         </div>
                         @endforeach
                         @if(request('category'))
-                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="clearCategoryFilter()">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                            onclick="clearCategoryFilter()">
                             Xóa bộ lọc
                         </button>
                         @endif
@@ -129,38 +134,40 @@
                 <div class="col-6 col-md-4 col-xl-3 mb-4">
                     <div class="card product-card h-100">
                         <div class="position-relative">
-                            <img src="https://via.placeholder.com/300x200/f8f9fa/6c757d?text={{ urlencode($phone->name) }}" 
-                                 class="card-img-top product-image" alt="{{ $phone->name }}">
-                            
+                            <img src="images\Xiaomi 14 Ultra crop.png" class="card-img-top product-image"
+                                alt="{{ $phone->name }}">
+
                             @if($phone->discount_percentage > 0)
                             <span class="discount-badge">-{{ number_format($phone->discount_percentage, 0) }}%</span>
                             @endif
-                            
+
                             @if($phone->featured)
                             <span class="badge badge-featured position-absolute" style="top: 10px; left: 10px;">
                                 <i class="fas fa-star me-1"></i>Nổi bật
                             </span>
                             @endif
                         </div>
-                        
+
                         <div class="card-body d-flex flex-column">
                             <h6 class="card-title">{{ \Str::limit($phone->name, 30) }}</h6>
                             <p class="text-muted small mb-2">
                                 <i class="fas fa-tag me-1"></i>{{ $phone->brand->name ?? $phone->brand }}
                             </p>
-                            
+
                             <div class="mt-auto">
                                 <div class="d-flex align-items-center mb-2">
                                     @if($phone->discount_percentage > 0)
                                     <div class="d-flex flex-column">
-                                        <span class="price-original small">{{ number_format($phone->original_price) }}₫</span>
-                                        <span class="price-discounted">{{ number_format($phone->discounted_price) }}₫</span>
+                                        <span
+                                            class="price-original small">{{ number_format($phone->original_price) }}₫</span>
+                                        <span
+                                            class="price-discounted">{{ number_format($phone->discounted_price) }}₫</span>
                                     </div>
                                     @else
                                     <span class="fw-bold text-primary">{{ number_format($phone->price) }}₫</span>
                                     @endif
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center justify-content-between">
                                     <small class="text-muted">
                                         <i class="fas fa-eye me-1"></i>{{ $phone->view_count }}
@@ -169,7 +176,7 @@
                                         Chi tiết
                                     </a>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -201,14 +208,14 @@
 function applyPriceFilter() {
     const minPrice = document.getElementById('min_price').value;
     const maxPrice = document.getElementById('max_price').value;
-    
+
     const url = new URL(window.location);
     if (minPrice) url.searchParams.set('min_price', minPrice);
     else url.searchParams.delete('min_price');
-    
+
     if (maxPrice) url.searchParams.set('max_price', maxPrice);
     else url.searchParams.delete('max_price');
-    
+
     window.location.href = url.toString();
 }
 
@@ -237,4 +244,4 @@ function clearCategoryFilter() {
 }
 </script>
 @endpush
-@endsection 
+@endsection

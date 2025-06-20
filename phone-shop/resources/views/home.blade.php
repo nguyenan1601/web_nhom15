@@ -267,8 +267,7 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ $phone->image ?? 'https://via.placeholder.com/300x200/f8f9fa/6c757d?text=' . urlencode($phone->name) }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
+                        <img src="images\Redmi 12 crop.png" class="card-img-top product-image" alt="{{ $phone->name }}"
                             style="height: 200px; object-fit: cover;">
 
                         @if(isset($phone->discount_percentage) && $phone->discount_percentage > 0)
@@ -358,9 +357,8 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-2 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ $phone->image ?? 'https://via.placeholder.com/200x150/f8f9fa/6c757d?text=' . urlencode(substr($phone->name, 0, 10)) }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 150px; object-fit: cover;">
+                        <img src="images\Galaxy A55 crop.png" class="card-img-top product-image"
+                            alt="{{ $phone->name }}" style="height: 150px; object-fit: cover;">
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
                             <i class="fas fa-sparkles me-1"></i>Mới
@@ -416,8 +414,7 @@ trường Việt Nam.')
             <div class="col-6 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ $phone->image ?? 'https://via.placeholder.com/300x200/f8f9fa/6c757d?text=' . urlencode($phone->name) }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
+                        <img src="images\Vivo Y36 crop.png" class="card-img-top product-image" alt="{{ $phone->name }}"
                             style="height: 200px; object-fit: cover;">
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
