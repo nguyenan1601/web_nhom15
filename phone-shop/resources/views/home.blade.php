@@ -471,7 +471,7 @@ trường Việt Nam.')
         <h2 class="fw-bold mb-3">Tìm Không Ra Sản Phẩm Ưng Ý?</h2>
         <p class="lead mb-4">Liên hệ với chúng tôi để được tư vấn miễn phí về sản phẩm phù hợp nhất</p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{{ route('contact') }}" class="btn btn-warning btn-lg">
+            <a href="{{ route('about') }}" class="btn btn-warning btn-lg">
                 <i class="fas fa-phone me-2"></i>Liên Hệ Ngay
             </a>
             <a href="{{ route('phones.index') }}" class="btn btn-outline-light btn-lg">
