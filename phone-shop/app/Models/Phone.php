@@ -40,7 +40,9 @@ class Phone extends Model
         'ram',
         'is_available',
         'view_count',
-        'released_at'
+        'released_at',
+        'image_path',
+        'detail_image_path'
     ];
 
     protected $casts = [

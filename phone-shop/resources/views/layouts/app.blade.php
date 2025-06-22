@@ -49,13 +49,23 @@
         line-height: 1.6;
         color: #334155;
         background-color: #ffffff;
+        padding-top: 0; /* Reset padding-top nếu có */
     }
 
     /* Header */
     .navbar {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%);
-        z-index: 1;
+        z-index: 1050; /* Đảm bảo header luôn ở trên cùng */
+        position: sticky;
+        top: 0;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .navbar.scrolled {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(29, 78, 216, 0.95) 100%);
     }
 
     .navbar-brand {
@@ -170,6 +180,8 @@
         background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%);
         color: white;
         padding: 80px 0;
+        margin-top: 0;
+        padding-top: 80px;
     }
 
     /* Footer */
@@ -241,6 +253,28 @@
     .badge-sale {
         background: var(--danger-color);
         color: white;
+    }
+
+    /* Đảm bảo nội dung không bị che bởi sticky navbar */
+    body {
+        padding-top: 0; /* Reset padding-top nếu có */
+    }
+    
+    /* Tạo khoảng cách cho các section đầu tiên */
+    .hero-section {
+        margin-top: 0;
+        padding-top: 80px;
+    }
+    
+    /* Đảm bảo z-index cho các phần tử khác */
+    .product-image-container {
+        z-index: 1;
+        position: relative;
+    }
+    
+    .product-detail-card {
+        z-index: 1;
+        position: relative;
     }
     </style>
 
@@ -409,6 +443,22 @@
                 }
             });
         }
+    });
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    let lastScrollTop = 0;
+    
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        lastScrollTop = scrollTop;
     });
     </script>
 

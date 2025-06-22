@@ -53,7 +53,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 1250,
                 'released_at' => '2023-09-22',
-                'image_path' => 'images\iPhone 15 Pro Max crop.png'
+                'image_path' => 'images\iPhone 15 Pro Max crop.png',
+                'detail_image_path' => 'images\iPhone 15 Pro Max detail.png'
             ],
             [
                 'name' => 'iPhone 14',
@@ -94,7 +95,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 890,
                 'released_at' => '2022-09-16',
-                'image_path' => 'images\iPhone 14 crop.png'
+                'image_path' => 'images\iPhone 14 crop.png',
+                'detail_image_path' => 'images\iPhone 14 detail.png'
             ],
             // Samsung Galaxy Models
             [
@@ -136,7 +138,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 1100,
                 'released_at' => '2024-01-24',
-                'image_path' => 'images\Samsung Galaxy S24 Ultra crop.png'
+                'image_path' => 'images\Samsung Galaxy S24 Ultra crop.png',
+                'detail_image_path' => 'images\Samsung Galaxy S24 Ultra detail.png'
             ],
             [
                 'name' => 'Samsung Galaxy A55',
@@ -177,7 +180,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 450,
                 'released_at' => '2024-03-11',
-                'image_path' => 'images\Galaxy A55 crop.png'
+                'image_path' => 'images\Galaxy A55 crop.png',
+                'detail_image_path' => 'images\Galaxy A55 detail.png'
             ],
             // Xiaomi Models
             [
@@ -219,7 +223,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 680,
                 'released_at' => '2024-02-25',
-                'image_path' => 'images\Xiaomi 14 Ultra crop.png'
+                'image_path' => 'images\Xiaomi 14 Ultra crop.png',
+                'detail_image_path' => 'images\Xiaomi 14 Ultra detail.png'
             ],
             [
                 'name' => 'Xiaomi Redmi Note 13',
@@ -260,7 +265,8 @@ class PhoneSeeder extends Seeder
                 'is_available' => true,
                 'view_count' => 750,
                 'released_at' => '2024-01-15',
-                'image_path' => 'images\Redmi Note 13 crop.png'
+                'image_path' => 'images\Redmi Note 13 crop.png',
+                'detail_image_path' => 'images\Redmi Note 13 detail.png'
             ]
         ];
 

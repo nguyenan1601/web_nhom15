@@ -45,12 +45,21 @@ class HomeController extends Controller
             ->limit(4)
             ->get();
 
+        // Hot deals - sản phẩm có giảm giá cao
+        $hotDeals = Phone::with(['brand', 'category'])
+            ->available()
+            ->where('discount_percentage', '>', 0)
+            ->orderBy('discount_percentage', 'desc')
+            ->limit(3)
+            ->get();
+
         return view('home', compact(
             'featuredPhones',
             'latestPhones', 
             'featuredBrands',
             'categories',
-            'bestSellerPhones'
+            'bestSellerPhones',
+            'hotDeals'
         ));
     }
 

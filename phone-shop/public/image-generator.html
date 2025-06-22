@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Ảnh Placeholder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .phone-placeholder {
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+        .phone-placeholder h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+        .phone-placeholder p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.8;
+        }
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        input, select {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        .download-btn {
+            background: #38a169;
+        }
+        .download-btn:hover {
+            background: #2f855a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tạo Ảnh Placeholder Điện Thoại</h1>
+    
+    <div class="controls">
+        <label>Tên điện thoại:</label>
+        <input type="text" id="phoneName" value="iPhone 15 Pro Max" placeholder="Nhập tên điện thoại">
+        
+        <label>Thương hiệu:</label>
+        <select id="brand">
+            <option value="Apple">Apple</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Xiaomi">Xiaomi</option>
+            <option value="Oppo">Oppo</option>
+            <option value="Vivo">Vivo</option>
+            <option value="Realme">Realme</option>
+        </select>
+        
+        <label>Màu gradient:</label>
+        <select id="gradient">
+            <option value="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">Xanh tím</option>
+            <option value="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">Hồng</option>
+            <option value="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">Xanh dương</option>
+            <option value="linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">Xanh lá</option>
+            <option value="linear-gradient(135deg, #fa709a 0%, #fee140 100%)">Vàng hồng</option>
+            <option value="linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)">Pastel</option>
+        </select>
+        
+        <button onclick="updatePhone()">Cập nhật</button>
+        <button onclick="downloadImage()" class="download-btn">Tải xuống ảnh</button>
+    </div>
+    
+    <div id="phoneContainer">
+        <div class="phone-placeholder" id="phone">
+            <h2 id="displayName">iPhone 15 Pro Max</h2>
+            <p id="displayBrand">Apple</p>
+        </div>
+    </div>
+
+    <script>
+        function updatePhone() {
+            const name = document.getElementById('phoneName').value;
+            const brand = document.getElementById('brand').value;
+            const gradient = document.getElementById('gradient').value;
+            
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayBrand').textContent = brand;
+            document.getElementById('phone').style.background = gradient;
+        }
+        
+        function downloadImage() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 400;
+            canvas.height = 600;
+            
+            // Tạo gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            // Vẽ background
+            ctx.fillStyle = gradient;
+            ctx.roundRect(0, 0, canvas.width, canvas.height, 30);
+            ctx.fill();
+            
+            // Vẽ notch
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.roundRect(150, 20, 100, 6, 3);
+            ctx.fill();
+            
+            // Vẽ text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 28px Arial';
+            ctx.textAlign = 'center';
+            const name = document.getElementById('phoneName').value;
+            ctx.fillText(name, canvas.width/2, canvas.height/2);
+            
+            ctx.font = '18px Arial';
+            const brand = document.getElementById('brand').value;
+            ctx.fillText(brand, canvas.width/2, canvas.height/2 + 40);
+            
+            // Tải xuống
+            const link = document.createElement('a');
+            link.download = `${name.replace(/\s+/g, '_')}_detail.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Polyfill cho roundRect
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            }
+        }
+    </script>
+</body>
+</html>

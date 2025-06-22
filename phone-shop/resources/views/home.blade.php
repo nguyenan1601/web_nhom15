@@ -128,77 +128,283 @@ trường Việt Nam.')
 
 
 <!-- Hot Deals Section -->
-<section class="py-5 bg-danger text-white">
-    <div class="container">
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">
-                <i class="fas fa-fire me-2"></i>
-                Ưu Đãi Hôm Nay
+<style>
+.hot-deals-section {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #dc3545 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hot-deals-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    opacity: 0.3;
+}
+
+.deal-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.deal-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.deal-image {
+    transition: transform 0.3s ease;
+    border-radius: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+}
+
+.deal-card:hover .deal-image {
+    transform: scale(1.1);
+}
+
+.discount-badge {
+    background: linear-gradient(45deg, #ff4757, #ff6b7a);
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.price-old {
+    position: relative;
+    color: #6c757d;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    display: inline-block;
+    text-decoration: line-through;
+    text-decoration-color: #495057;
+    text-decoration-thickness: 2px;
+}
+
+.deal-btn {
+    background: linear-gradient(45deg, #dc3545, #ff4757);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.deal-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.deal-btn:hover::before {
+    left: 100%;
+}
+
+.deal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+}
+
+.fire-icon {
+    animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+</style>
+
+<section class="py-5 hot-deals-section text-white position-relative">
+    <div class="container position-relative">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold display-5 mb-3">
+                <i class="fas fa-fire me-3 fire-icon text-warning"></i>
+                ƯU ĐÃI HOT
+                <i class="fas fa-fire ms-3 fire-icon text-warning"></i>
             </h2>
-            <p class="mb-0">Giảm giá lên đến 50% cho một số sản phẩm</p>
+            <p class="fs-5 mb-0">🔥 Giảm giá lên đến 50% - Số lượng có hạn 🔥</p>
+            <div class="mt-3">
+                <span class="badge bg-warning text-dark px-4 py-2 fs-6">
+                    <i class="fas fa-clock me-2"></i>Chỉ còn 24 giờ!
+                </span>
+            </div>
         </div>
 
-        <div class="row">
-            @php
-            $hotDeals = [
-            [
-            'name' => 'iPhone 15 Pro Max',
-            'brand' => 'Apple',
-            'original_price' => 34990000,
-            'sale_price' => 29990000,
-            'discount' => 15,
-            'image' =>
-            'images\iPhone 15 Pro Max crop.png'
-            ],
-            [
-            'name' => 'Samsung Galaxy S24 Ultra',
-            'brand' => 'Samsung',
-            'original_price' => 29990000,
-            'sale_price' => 24990000,
-            'discount' => 17,
-            'image' =>
-            'images\Samsung Galaxy S24 Ultra crop.png'
-            ],
-            [
-            'name' => 'Xiaomi 14 Ultra',
-            'brand' => 'Xiaomi',
-            'original_price' => 24990000,
-            'sale_price' => 19990000,
-            'discount' => 20,
-            'image' =>
-            'images\Xiaomi 14 Ultra crop.png'
-            ]
-            ];
-            @endphp
-
+        <div class="row justify-content-center">
+            @if(isset($hotDeals) && (is_array($hotDeals) ? count($hotDeals) > 0 : $hotDeals->count() > 0))
             @foreach($hotDeals as $deal)
-            <div class="col-md-4 mb-4">
-                <div class="card bg-white text-dark h-100 shadow-lg">
-                    <div class="position-relative">
-                        <img src="{{ $deal['image'] }}" class="card-img-top" alt="{{ $deal['name'] }}"
-                            style="height: 200px; object-fit: cover;">
-                        <span class="badge bg-danger position-absolute" style="top: 10px; right: 10px;">
-                            -{{ $deal['discount'] }}%
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card deal-card bg-white text-dark h-100">
+                    <div class="position-relative p-3">
+                        <img src="{{ $deal->image_path ? asset($deal->image_path) : asset('images/default-phone.png') }}"
+                            class="card-img-top deal-image" alt="{{ $deal->name }}"
+                            style="height: 220px; object-fit: contain;">
+                        <span class="discount-badge position-absolute" style="top: 15px; right: 15px;">
+                            -{{ number_format($deal->discount_percentage, 0) }}%
                         </span>
+                        @if($deal->featured)
+                        <span class="badge bg-warning text-dark position-absolute" style="top: 15px; left: 15px;">
+                            <i class="fas fa-star me-1"></i>HOT
+                        </span>
+                        @endif
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $deal['name'] }}</h5>
-                        <p class="text-muted mb-2">{{ $deal['brand'] }}</p>
-                        <div class="price-section">
-                            <span class="text-decoration-line-through text-muted me-2">
-                                {{ number_format($deal['original_price']) }}₫
-                            </span>
-                            <span class="fw-bold text-danger fs-5">
-                                {{ number_format($deal['sale_price']) }}₫
-                            </span>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-2">{{ \Str::limit($deal->name, 35) }}</h5>
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-tag me-1"></i>{{ $deal->brand }}
+                        </p>
+
+                        <div class="price-section mb-4">
+                            @if($deal->original_price && $deal->original_price > $deal->price)
+                            <div class="price-old mb-1">
+                                {{ number_format($deal->original_price) }}₫
+                            </div>
+                            @endif
+                            <div class="fw-bold text-danger" style="font-size: 1.5rem;">
+                                {{ number_format($deal->price) }}₫
+                            </div>
+                            <small class="text-success">
+                                <i class="fas fa-arrow-down me-1"></i>
+                                Tiết kiệm {{ number_format($deal->original_price - $deal->price) }}₫
+                            </small>
                         </div>
-                        <a href="#" class="btn btn-danger w-100 mt-3">
-                            <i class="fas fa-shopping-cart me-2"></i>Mua Ngay
-                        </a>
+
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('phones.show', $deal) }}" class="btn deal-btn text-white">
+                                <i class="fas fa-shopping-cart me-2"></i>MUA NGAY
+                            </a>
+                            <small class="text-muted">
+                                <i class="fas fa-truck me-1"></i>Miễn phí vận chuyển
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
+            @else
+            <!-- Fallback to sample data if no hot deals from database -->
+            @php
+            $sampleHotDeals = [
+            [
+            'id' => 1,
+            'name' => 'iPhone 15 Pro Max',
+            'brand' => 'Apple',
+            'original_price' => 34990000,
+            'price' => 29990000,
+            'discount_percentage' => 15,
+            'image_path' => 'images/iPhone 15 Pro Max crop.png',
+            'featured' => true
+            ],
+            [
+            'id' => 2,
+            'name' => 'Samsung Galaxy S24 Ultra',
+            'brand' => 'Samsung',
+            'original_price' => 29990000,
+            'price' => 24990000,
+            'discount_percentage' => 17,
+            'image_path' => 'images/Samsung Galaxy S24 Ultra crop.png',
+            'featured' => true
+            ],
+            [
+            'id' => 3,
+            'name' => 'Xiaomi 14 Ultra',
+            'brand' => 'Xiaomi',
+            'original_price' => 24990000,
+            'price' => 19990000,
+            'discount_percentage' => 20,
+            'image_path' => 'images/Xiaomi 14 Ultra crop.png',
+            'featured' => false
+            ]
+            ];
+            @endphp
+
+            @foreach($sampleHotDeals as $deal)
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card deal-card bg-white text-dark h-100">
+                    <div class="position-relative p-3">
+                        <img src="{{ asset($deal['image_path']) }}" class="card-img-top deal-image"
+                            alt="{{ $deal['name'] }}" style="height: 220px; object-fit: contain;">
+                        <span class="discount-badge position-absolute" style="top: 15px; right: 15px;">
+                            -{{ $deal['discount_percentage'] }}%
+                        </span>
+                        @if($deal['featured'])
+                        <span class="badge bg-warning text-dark position-absolute" style="top: 15px; left: 15px;">
+                            <i class="fas fa-star me-1"></i>HOT
+                        </span>
+                        @endif
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-2">{{ \Str::limit($deal['name'], 35) }}</h5>
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-tag me-1"></i>{{ $deal['brand'] }}
+                        </p>
+
+                        <div class="price-section mb-4">
+                            <div class="price-old mb-1">
+                                {{ number_format($deal['original_price']) }}₫
+                            </div>
+                            <div class="fw-bold text-danger" style="font-size: 1.5rem;">
+                                {{ number_format($deal['price']) }}₫
+                            </div>
+                            <small class="text-success">
+                                <i class="fas fa-arrow-down me-1"></i>
+                                Tiết kiệm {{ number_format($deal['original_price'] - $deal['price']) }}₫
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('phones.show', $deal['id']) }}" class="btn deal-btn text-white">
+                                <i class="fas fa-shopping-cart me-2"></i>MUA NGAY
+                            </a>
+                            <small class="text-muted">
+                                <i class="fas fa-truck me-1"></i>Miễn phí vận chuyển
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </section>
@@ -226,7 +432,7 @@ trường Việt Nam.')
         'discount_percentage' => 9,
         'view_count' => 1250,
         'featured' => true,
-        'image' => 'images\iPhone 15 Pro Max crop.png'
+        'image_path' => 'images/iPhone 15 Pro Max crop.png'
         ],
         [
         'name' => 'Samsung Galaxy S24',
@@ -234,7 +440,7 @@ trường Việt Nam.')
         'price' => 22990000,
         'view_count' => 980,
         'featured' => true,
-        'image' => 'images\Samsung Galaxy S24 Ultra crop.png'
+        'image_path' => 'images/Samsung Galaxy S24 Ultra crop.png'
         ],
         [
         'name' => 'Xiaomi 14',
@@ -244,7 +450,7 @@ trường Việt Nam.')
         'discount_percentage' => 11,
         'view_count' => 756,
         'featured' => true,
-        'image' => 'images\Xiaomi 14 Ultra crop.png'
+        'image_path' => 'images/Xiaomi 14 Ultra crop.png'
         ],
         [
         'name' => 'Oppo Find X7',
@@ -252,7 +458,7 @@ trường Việt Nam.')
         'price' => 18990000,
         'view_count' => 642,
         'featured' => true,
-        'image' => 'images\Oppo Find X7 crop.png'
+        'image_path' => 'images/Oppo Find X7 crop.png'
         ]
         ];
 
@@ -267,8 +473,9 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="images\Redmi 12 crop.png" class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 200px; object-fit: cover;">
+                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : asset('images/default-phone.png') }}"
+                            class="card-img-top product-image" alt="{{ $phone->name }}"
+                            style="height: 200px; object-fit: contain;">
 
                         @if(isset($phone->discount_percentage) && $phone->discount_percentage > 0)
                         <span class="badge bg-danger position-absolute" style="top: 10px; right: 10px;">
@@ -305,7 +512,7 @@ trường Việt Nam.')
                                 <small class="text-muted">
                                     <i class="fas fa-eye me-1"></i>{{ $phone->view_count }} lượt xem
                                 </small>
-                                <a href="{{ route('phones.show', $phone->id ?? 1) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-info-circle me-1"></i>Chi tiết
                                 </a>
                             </div>
@@ -333,18 +540,18 @@ trường Việt Nam.')
 
         @php
         $sampleLatestPhones = [
-        ['name' => 'iPhone 15 Plus', 'brand' => 'Apple', 'price' => 25990000, 'image' =>
-        'images\iPhone 15 Pro Max crop.png'],
-        ['name' => 'Galaxy A55', 'brand' => 'Samsung', 'price' => 10990000, 'image' =>
-        'images\Galaxy A55 crop.png'],
-        ['name' => 'Redmi Note 13', 'brand' => 'Xiaomi', 'price' => 5990000, 'image' =>
-        'images\Redmi Note 13 crop.png'],
-        ['name' => 'Oppo A79', 'brand' => 'Oppo', 'price' => 6990000, 'image' =>
-        'images\Oppo A79 crop.png'],
-        ['name' => 'Vivo Y36', 'brand' => 'Vivo', 'price' => 4990000, 'image' =>
-        'images\Vivo Y36 crop.png'],
-        ['name' => 'Realme 11', 'brand' => 'Realme', 'price' => 7990000, 'image' =>
-        'images\Realme_11.png']
+        ['name' => 'iPhone 15 Plus', 'brand' => 'Apple', 'price' => 25990000, 'image_path' =>
+        'images/iPhone 15 Pro Max crop.png'],
+        ['name' => 'Galaxy A55', 'brand' => 'Samsung', 'price' => 10990000, 'image_path' =>
+        'images/Galaxy A55 crop.png'],
+        ['name' => 'Redmi Note 13', 'brand' => 'Xiaomi', 'price' => 5990000, 'image_path' =>
+        'images/Redmi Note 13 crop.png'],
+        ['name' => 'Oppo A79', 'brand' => 'Oppo', 'price' => 6990000, 'image_path' =>
+        'images/Oppo A79 crop.png'],
+        ['name' => 'Vivo Y36', 'brand' => 'Vivo', 'price' => 4990000, 'image_path' =>
+        'images/Vivo Y36 crop.png'],
+        ['name' => 'Realme 11', 'brand' => 'Realme', 'price' => 7990000, 'image_path' =>
+        'images/Realme_11.png']
         ];
 
         $latestPhones = isset($latestPhones) ? $latestPhones : collect($sampleLatestPhones)->map(function($phone) {
@@ -357,8 +564,9 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-2 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="images\Galaxy A55 crop.png" class="card-img-top product-image"
-                            alt="{{ $phone->name }}" style="height: 150px; object-fit: cover;">
+                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
+                            class="card-img-top product-image" alt="{{ $phone->name }}"
+                            style="height: 150px; object-fit: contain;">
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
                             <i class="fas fa-sparkles me-1"></i>Mới
@@ -371,7 +579,7 @@ trường Việt Nam.')
 
                         <div class="mt-auto">
                             <div class="fw-bold text-primary small mb-2">{{ number_format($phone->price) }}₫</div>
-                            <a href="{{ route('phones.show', $phone->id ?? 1) }}" class="btn btn-primary btn-sm w-100">
+                            <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm w-100">
                                 Xem
                             </a>
                         </div>
@@ -393,14 +601,14 @@ trường Việt Nam.')
 
         @php
         $sampleBestSellers = [
-        ['name' => 'iPhone 14', 'brand' => 'Apple', 'price' => 19990000, 'view_count' => 2450, 'image' =>
-        'images\iPhone 14 crop.png'],
-        ['name' => 'Galaxy A54', 'brand' => 'Samsung', 'price' => 9990000, 'view_count' => 1890, 'image' =>
-        'images\Galaxy A54 crop.png'],
-        ['name' => 'Redmi 12', 'brand' => 'Xiaomi', 'price' => 4990000, 'view_count' => 1650, 'image' =>
-        'images\Redmi 12 crop.png'],
-        ['name' => 'Oppo A58', 'brand' => 'Oppo', 'price' => 5490000, 'view_count' => 1320, 'image' =>
-        'images\Oppo A58 crop.png']
+        ['name' => 'iPhone 14', 'brand' => 'Apple', 'price' => 19990000, 'view_count' => 2450, 'image_path' =>
+        'images/iPhone 14 crop.png'],
+        ['name' => 'Galaxy A54', 'brand' => 'Samsung', 'price' => 9990000, 'view_count' => 1890, 'image_path' =>
+        'images/Galaxy A54 crop.png'],
+        ['name' => 'Redmi 12', 'brand' => 'Xiaomi', 'price' => 4990000, 'view_count' => 1650, 'image_path' =>
+        'images/Redmi 12 crop.png'],
+        ['name' => 'Oppo A58', 'brand' => 'Oppo', 'price' => 5490000, 'view_count' => 1320, 'image_path' =>
+        'images/Oppo A58 crop.png']
         ];
 
         $bestSellerPhones = isset($bestSellerPhones) ? $bestSellerPhones :
@@ -414,8 +622,9 @@ trường Việt Nam.')
             <div class="col-6 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="images\Vivo Y36 crop.png" class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 200px; object-fit: cover;">
+                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
+                            class="card-img-top product-image" alt="{{ $phone->name }}"
+                            style="height: 200px; object-fit: contain;">
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
                             <i class="fas fa-fire me-1"></i>Hot
@@ -432,7 +641,7 @@ trường Việt Nam.')
                                 <small class="text-success">
                                     <i class="fas fa-eye me-1"></i>{{ $phone->view_count }} views
                                 </small>
-                                <a href="{{ route('phones.show', $phone->id ?? 1) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm">
                                     Chi tiết
                                 </a>
                             </div>
