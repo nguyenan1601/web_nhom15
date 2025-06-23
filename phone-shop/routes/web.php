@@ -39,25 +39,35 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
 
-Route::resource('orders', OrderController::class)->only([
-    'index', 'show', 'destroy'
-]);
-
-// Giỏ hàng
+// Import CartController
 use App\Http\Controllers\CartController;
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+// Include Authentication Routes
+require __DIR__.'/auth.php';
 
-// Thanh toán
+// Thanh toán - cho phép cả guest và auth user
 use App\Http\Controllers\CheckoutController;
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-Route::get('/order/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
+
+// Protected Routes (cần đăng nhập)
+Route::middleware('auth')->group(function () {
+    // Giỏ hàng
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    
+    // Đơn hàng
+    Route::resource('orders', OrderController::class)->only([
+        'index', 'show', 'destroy'
+    ]);
+    
+    // Checkout success và show (cần đăng nhập)
+    Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/order/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
+});
 
 Route::get('/check-url', function () {
     return config('app.url');

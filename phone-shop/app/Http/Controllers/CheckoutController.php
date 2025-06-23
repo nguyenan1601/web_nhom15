@@ -7,7 +7,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Phone;
 use App\Models\Customer;
+use App\Models\Cart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
@@ -17,28 +19,40 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $cart = session()->get('cart', []);
+        // Lấy giỏ hàng từ database
+        $userId = Auth::id();
+        $sessionId = session()->getId();
+
+        $cartQuery = Cart::with('phone');
         
-        if (empty($cart)) {
+        if ($userId) {
+            $cartQuery->where('user_id', $userId);
+        } else {
+            $cartQuery->where('session_id', $sessionId)->whereNull('user_id');
+        }
+        
+        $cartItems = $cartQuery->get();
+        
+        if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống!');
         }
 
         // Tính toán tổng tiền
         $subtotal = 0;
-        $cartItems = [];
+        $items = [];
         
-        foreach ($cart as $id => $item) {
-            $phone = Phone::find($item['id']);
-            if ($phone && $phone->stock_quantity >= $item['quantity']) {
-                $itemTotal = $item['price'] * $item['quantity'];
+        foreach ($cartItems as $cartItem) {
+            $phone = $cartItem->phone;
+            if ($phone && $phone->stock_quantity >= $cartItem->quantity) {
+                $itemTotal = $phone->price * $cartItem->quantity;
                 $subtotal += $itemTotal;
                 
-                $cartItems[] = [
-                    'id' => $item['id'],
-                    'name' => $item['name'],
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'color' => $item['color'] ?? 'Không xác định',
+                $items[] = [
+                    'id' => $phone->id,
+                    'name' => $phone->name,
+                    'price' => $phone->price,
+                    'quantity' => $cartItem->quantity,
+                    'color' => $cartItem->color ?? 'Không xác định',
                     'total' => $itemTotal,
                     'phone' => $phone
                 ];
@@ -51,7 +65,7 @@ class CheckoutController extends Controller
         $taxAmount = $subtotal * $taxRate;
         $total = $subtotal + $shippingFee + $taxAmount;
 
-        return view('checkout.index', compact('cartItems', 'subtotal', 'shippingFee', 'taxAmount', 'total'));
+        return view('checkout.index', compact('items', 'subtotal', 'shippingFee', 'taxAmount', 'total'));
     }
 
     /**
@@ -69,9 +83,21 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:cod,bank_transfer,momo,vnpay',
         ]);
 
-        $cart = session()->get('cart', []);
+        // Lấy giỏ hàng từ database
+        $userId = Auth::id();
+        $sessionId = session()->getId();
+
+        $cartQuery = Cart::with('phone');
         
-        if (empty($cart)) {
+        if ($userId) {
+            $cartQuery->where('user_id', $userId);
+        } else {
+            $cartQuery->where('session_id', $sessionId)->whereNull('user_id');
+        }
+        
+        $cartItems = $cartQuery->get();
+        
+        if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống!');
         }
 
@@ -82,20 +108,20 @@ class CheckoutController extends Controller
             $subtotal = 0;
             $orderItems = [];
             
-            foreach ($cart as $id => $item) {
-                $phone = Phone::find($item['id']);
-                if (!$phone || $phone->stock_quantity < $item['quantity']) {
-                    throw new \Exception("Sản phẩm {$item['name']} không đủ hàng trong kho!");
+            foreach ($cartItems as $cartItem) {
+                $phone = $cartItem->phone;
+                if (!$phone || $phone->stock_quantity < $cartItem->quantity) {
+                    throw new \Exception("Sản phẩm {$phone->name} không đủ hàng trong kho!");
                 }
                 
-                $itemTotal = $item['price'] * $item['quantity'];
+                $itemTotal = $phone->price * $cartItem->quantity;
                 $subtotal += $itemTotal;
                 
                 $orderItems[] = [
-                    'phone_id' => $item['id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'color' => $item['color'] ?? null,
+                    'phone_id' => $phone->id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $phone->price,
+                    'color' => $cartItem->color ?? null,
                     'total' => $itemTotal
                 ];
             }
@@ -154,8 +180,12 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            // Xóa giỏ hàng
-            session()->forget('cart');
+            // Xóa giỏ hàng từ database
+            if ($userId) {
+                Cart::where('user_id', $userId)->delete();
+            } else {
+                Cart::where('session_id', $sessionId)->whereNull('user_id')->delete();
+            }
 
             return redirect()->route('checkout.success', $order->id)
                            ->with('success', 'Đặt hàng thành công!');

@@ -4,15 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     /**
-     * Hiển thị danh sách đơn hàng.
+     * Tạo middleware auth cho tất cả methods
      */
-    public function index()
+    public function __construct()
     {
-        $orders = Order::with('items')->latest()->get();
+        $this->middleware('auth');
+    }
+
+    /**
+     * Hiển thị danh sách đơn hàng của user hiện tại.
+     */
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+        
+        // Query base
+        $query = Order::with(['orderItems.phone'])
+            ->where(function($q) use ($user) {
+                $q->where('customer_id', $user->id)
+                  ->orWhere('shipping_email', $user->email);
+            });
+            
+        // Lọc theo trạng thái nếu có
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        // Sắp xếp
+        $sortBy = $request->get('sort', 'latest');
+        switch ($sortBy) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'total_desc':
+                $query->orderBy('total_amount', 'desc');
+                break;
+            case 'total_asc':
+                $query->orderBy('total_amount', 'asc');
+                break;
+            default: // latest
+                $query->latest();
+                break;
+        }
+        
+        $orders = $query->paginate(10);
+            
         return view('orders.index', compact('orders'));
     }
 
@@ -21,19 +62,37 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::with('items')->findOrFail($id);
+        $user = Auth::user();
+        
+        $order = Order::with(['orderItems.phone'])
+            ->where(function($query) use ($user) {
+                $query->where('customer_id', $user->id)
+                      ->orWhere('shipping_email', $user->email);
+            })
+            ->where('id', $id)
+            ->firstOrFail();
+            
         return view('orders.show', compact('order'));
     }
 
     /**
-     * Xoá một đơn hàng.
+     * Hủy một đơn hàng (chỉ cho phép hủy đơn hàng pending).
      */
     public function destroy($id)
     {
-        $order = Order::findOrFail($id);
-        $order->items()->delete(); // Xoá các sản phẩm trong đơn hàng
-        $order->delete(); // Xoá đơn hàng
+        $user = Auth::user();
+        
+        $order = Order::where(function($query) use ($user) {
+                $query->where('customer_id', $user->id)
+                      ->orWhere('shipping_email', $user->email);
+            })
+            ->where('id', $id)
+            ->where('status', 'pending') // Chỉ cho phép hủy đơn hàng pending
+            ->firstOrFail();
 
-        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được xoá.');
+        $order->status = 'cancelled';
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công.');
     }
 }

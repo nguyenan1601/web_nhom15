@@ -74,9 +74,19 @@ class Order extends Model
     }
 
     // Accessors
-    public function getShippingFullNameAttribute()
+    public function getItemsAttribute()
+    {
+        return $this->orderItems;
+    }
+
+    public function getShippingNameAttribute()
     {
         return $this->shipping_first_name . ' ' . $this->shipping_last_name;
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->total_amount;
     }
 
     public function getShippingFullAddressAttribute()

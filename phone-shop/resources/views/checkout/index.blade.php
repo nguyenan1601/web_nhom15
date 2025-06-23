@@ -323,7 +323,7 @@
                         </h4>
                         
                         <!-- Danh sách sản phẩm -->
-                        @foreach($cartItems as $item)
+                        @foreach($items as $item)
                         <div class="order-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

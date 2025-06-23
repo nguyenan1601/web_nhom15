@@ -492,21 +492,99 @@
                         </div>
                     </div>                    <!-- Product Options -->
                     @if($phone->stock_quantity > 0)
-                    <form action="{{ route('cart.add', $phone->id) }}" method="POST" id="productForm" class="mb-4">
-                        @csrf
+                        @auth
+                        <!-- User đã đăng nhập - hiện form bình thường -->
+                        <form action="{{ route('cart.add', $phone->id) }}" method="POST" id="productForm" class="mb-4">
+                            @csrf
+                            
+                            <!-- Color Selection -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-palette me-2"></i>Chọn màu sắc:
+                                </label>
+                                <div class="color-options d-flex flex-wrap gap-2">                                @php
+                                        $availableColors = ['Trắng', 'Đen', 'Vàng'];
+                                        $phoneColor = $phone->color ?? 'Trắng';
+                                    @endphp@foreach($availableColors as $color)
+                                    <div class="color-option">
+                                        <input type="radio" class="btn-check" name="color" id="color_{{ strtolower($color) }}" 
+                                               value="{{ $color }}" {{ $color == $phoneColor ? 'checked' : '' }}>                                        <label class="btn btn-outline-primary color-btn" for="color_{{ strtolower($color) }}">
+                                            @if($color == 'Đen')
+                                                <span class="color-swatch me-2" style="background-color: #000000; border: 2px solid #ddd;"></span>
+                                            @elseif($color == 'Trắng')
+                                                <span class="color-swatch me-2" style="background-color: #ffffff; border: 2px solid #333;"></span>
+                                            @elseif($color == 'Vàng')
+                                                <span class="color-swatch me-2" style="background-color: #ffc107; border: 2px solid #ddd;"></span>
+                                            @endif
+                                            {{ $color }}
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Quantity Selection -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-sort-numeric-up me-2"></i>Số lượng:
+                                </label>
+                                <div class="quantity-selector d-flex align-items-center">
+                                    <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="decreaseQuantity()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="quantity" id="quantity" class="form-control text-center mx-2" 
+                                           value="1" min="1" max="{{ $phone->stock_quantity }}" style="width: 80px;">
+                                    <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="increaseQuantity()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <span class="ms-3 text-muted">
+                                        (Còn {{ $phone->stock_quantity }} sản phẩm)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Product Actions -->
+                            <div class="d-flex gap-3 mb-4">                                <!-- Nút Mua Ngay -->
+                                <button type="submit" name="buy_now" value="1" class="btn btn-add-to-cart flex-fill" 
+                                        title="Thêm vào giỏ hàng và chuyển thẳng đến trang thanh toán">
+                                    <i class="fas fa-bolt me-2"></i>MUA NGAY - THANH TOÁN
+                                </button>
+                            </div>
+                              
+                            <!-- Secondary Actions -->
+                            <div class="d-flex gap-2 mb-4">
+                                <button type="submit" class="btn btn-secondary-action flex-fill">
+                                    <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                                </button>
+                                <button type="button" class="btn btn-outline-danger">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </form>
+                        @else
+                        <!-- User chưa đăng nhập - hiện thông báo yêu cầu đăng nhập -->
+                        <div class="alert alert-info mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="alert-heading mb-1">Cần đăng nhập để mua hàng</h6>
+                                    <p class="mb-0">Để thêm sản phẩm vào giỏ hàng hoặc mua ngay, bạn cần đăng nhập tài khoản.</p>
+                                </div>
+                            </div>
+                        </div>
                         
-                        <!-- Color Selection -->
+                        <!-- Color Selection (chỉ hiển thị, không thể chọn) -->
                         <div class="mb-4">
-                            <label class="form-label fw-bold">
-                                <i class="fas fa-palette me-2"></i>Chọn màu sắc:
+                            <label class="form-label fw-bold text-muted">
+                                <i class="fas fa-palette me-2"></i>Màu sắc có sẵn:
                             </label>
-                            <div class="color-options d-flex flex-wrap gap-2">                                @php
+                            <div class="color-options d-flex flex-wrap gap-2">
+                                @php
                                     $availableColors = ['Trắng', 'Đen', 'Vàng'];
-                                    $phoneColor = $phone->color ?? 'Trắng';
-                                @endphp@foreach($availableColors as $color)
+                                @endphp
+                                @foreach($availableColors as $color)
                                 <div class="color-option">
-                                    <input type="radio" class="btn-check" name="color" id="color_{{ strtolower($color) }}" 
-                                           value="{{ $color }}" {{ $color == $phoneColor ? 'checked' : '' }}>                                    <label class="btn btn-outline-primary color-btn" for="color_{{ strtolower($color) }}">
+                                    <span class="btn btn-outline-secondary disabled color-btn">
                                         @if($color == 'Đen')
                                             <span class="color-swatch me-2" style="background-color: #000000; border: 2px solid #ddd;"></span>
                                         @elseif($color == 'Trắng')
@@ -515,50 +593,30 @@
                                             <span class="color-swatch me-2" style="background-color: #ffc107; border: 2px solid #ddd;"></span>
                                         @endif
                                         {{ $color }}
-                                    </label>
+                                    </span>
                                 </div>
                                 @endforeach
                             </div>
                         </div>
 
-                        <!-- Quantity Selection -->
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">
-                                <i class="fas fa-sort-numeric-up me-2"></i>Số lượng:
-                            </label>
-                            <div class="quantity-selector d-flex align-items-center">
-                                <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="decreaseQuantity()">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="number" name="quantity" id="quantity" class="form-control text-center mx-2" 
-                                       value="1" min="1" max="{{ $phone->stock_quantity }}" style="width: 80px;">
-                                <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="increaseQuantity()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                                <span class="ms-3 text-muted">
-                                    (Còn {{ $phone->stock_quantity }} sản phẩm)
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Product Actions -->
-                        <div class="d-flex gap-3 mb-4">                            <!-- Nút Mua Ngay -->
-                            <button type="submit" name="buy_now" value="1" class="btn btn-add-to-cart flex-fill" 
-                                    title="Thêm vào giỏ hàng và chuyển thẳng đến trang thanh toán">
-                                <i class="fas fa-bolt me-2"></i>MUA NGAY - THANH TOÁN
-                            </button>
+                        <!-- Actions cho user chưa đăng nhập -->
+                        <div class="d-flex gap-3 mb-4">
+                            <a href="{{ route('login') }}?intended={{ urlencode(request()->fullUrl()) }}" 
+                               class="btn btn-add-to-cart flex-fill">
+                                <i class="fas fa-sign-in-alt me-2"></i>ĐĂNG NHẬP ĐỂ MUA NGAY
+                            </a>
                         </div>
                           
-                        <!-- Secondary Actions -->
                         <div class="d-flex gap-2 mb-4">
-                            <button type="submit" class="btn btn-secondary-action flex-fill">
-                                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-                            </button>
-                            <button type="button" class="btn btn-outline-danger">
+                            <a href="{{ route('login') }}?intended={{ urlencode(request()->fullUrl()) }}" 
+                               class="btn btn-secondary-action flex-fill">
+                                <i class="fas fa-cart-plus me-2"></i>Đăng nhập để thêm vào giỏ
+                            </a>
+                            <button type="button" class="btn btn-outline-danger" disabled>
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
-                    </form>
+                        @endauth
                     @else
                     <div class="d-flex gap-2 mb-4">
                         <button class="btn btn-secondary w-100" disabled>
