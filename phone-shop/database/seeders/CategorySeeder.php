@@ -16,48 +16,43 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => 'Smartphone Cao Cấp',
-                'status' => 'active',
-                'sort_order' => 1
+                'description' => 'Các dòng điện thoại flagship với công nghệ tiên tiến nhất'
             ],
             [
                 'name' => 'Smartphone Tầm Trung',
-                'status' => 'active',
-                'sort_order' => 2
+                'description' => 'Điện thoại có hiệu năng tốt với mức giá hợp lý'
             ],
             [
                 'name' => 'Smartphone Giá Rẻ',
-                'status' => 'active',
-                'sort_order' => 3
+                'description' => 'Điện thoại phù hợp với ngân sách tiết kiệm'
             ],
             [
                 'name' => 'iPhone',
-                'status' => 'active',
-                'sort_order' => 4
+                'description' => 'Dòng sản phẩm iPhone của Apple'
             ],
             [
                 'name' => 'Samsung Galaxy',
-                'status' => 'active',
-                'sort_order' => 5
+                'description' => 'Dòng sản phẩm Galaxy của Samsung'
             ],
             [
                 'name' => 'Gaming Phone',
-                'status' => 'active',
-                'sort_order' => 6
+                'description' => 'Điện thoại chuyên dụng cho gaming'
             ],
             [
                 'name' => 'Điện Thoại Nắp Gập',
-                'status' => 'active',
-                'sort_order' => 7
+                'description' => 'Điện thoại màn hình gập hiện đại'
             ],
             [
                 'name' => 'Điện Thoại Camera Chuyên Nghiệp',
-                'status' => 'active',
-                'sort_order' => 8
+                'description' => 'Điện thoại tập trung vào khả năng chụp ảnh'
             ]
         ];
 
         foreach ($categories as $category) {
-            Category::create($category);
+            Category::updateOrCreate(
+                ['name' => $category['name']], // Điều kiện tìm kiếm
+                $category // Dữ liệu để tạo hoặc cập nhật
+            );
         }
     }
 }
