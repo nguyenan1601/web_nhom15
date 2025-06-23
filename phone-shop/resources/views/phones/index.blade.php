@@ -134,8 +134,10 @@
                 <div class="col-6 col-md-4 col-xl-3 mb-4">
                     <div class="card product-card h-100">
                         <div class="position-relative">
-                            <img src="images\Xiaomi 14 Ultra crop.png" class="card-img-top product-image"
-                                alt="{{ $phone->name }}">
+                            <a href="{{ route('phones.show', $phone) }}" class="d-block">
+                                <img src="{{ $phone->image_path ? asset($phone->image_path) : asset('images/default-phone.png') }}" 
+                                    class="card-img-top product-image" alt="{{ $phone->name }}">
+                            </a>
 
                             @if($phone->discount_percentage > 0)
                             <span class="discount-badge">-{{ number_format($phone->discount_percentage, 0) }}%</span>
@@ -242,6 +244,72 @@ function clearCategoryFilter() {
     url.searchParams.delete('category');
     window.location.href = url.toString();
 }
+
+// Add loading animation for images
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.product-image');
+    
+    images.forEach(imgContainer => {
+        const img = imgContainer.querySelector ? imgContainer : imgContainer.querySelector('img');
+        
+        if (img && img.tagName === 'IMG') {
+            if (img.complete) {
+                imgContainer.classList.add('loaded');
+            } else {
+                img.addEventListener('load', function() {
+                    imgContainer.classList.add('loaded');
+                });
+            }
+        }
+    });
+});
 </script>
+@endpush
+
+@push('styles')
+<style>
+/* Hiệu ứng hover cho ảnh sản phẩm có thể click */
+.product-card .position-relative a:hover .product-image {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.product-card .position-relative a {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.product-card .position-relative a:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Thêm cursor pointer cho ảnh */
+.product-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng loading cho ảnh */
+.product-image {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.product-image.loaded {
+    animation: none;
+    background: none;
+}
+</style>
 @endpush
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Phone;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -54,13 +55,11 @@ class CartController extends Controller
                 "color" => $request->color,
                 "image" => $phone->image_path ?? null
             ];
-        }
-
-        session()->put('cart', $cart);
+        }        session()->put('cart', $cart);
 
         // Check if this is a "buy now" request
         if ($request->has('buy_now') && $request->buy_now == '1') {
-            return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng! Tiến hành thanh toán.');
+            return redirect()->route('checkout.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng! Tiến hành thanh toán.');
         }
 
         return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');

@@ -195,19 +195,29 @@
         overflow: hidden;
     }
       .btn-add-to-cart {
-        background: linear-gradient(45deg, #ff6b35, #f7931e);
+        background: linear-gradient(45deg, #ff6b35, #f7931e, #ff6b35);
+        background-size: 200% 100%;
+        animation: gradient-shift 3s ease infinite;
         border: none;
         border-radius: 50px;
         padding: 15px 30px;
         font-weight: 700;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: white;
-        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        box-shadow: 
+            0 8px 25px rgba(255, 107, 53, 0.4),
+            0 0 0 0 rgba(255, 107, 53, 0.4);
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
         position: relative;
         overflow: hidden;
+    }
+    
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
     
     .btn-add-to-cart::before {
@@ -226,12 +236,20 @@
     }
     
     .btn-add-to-cart:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(255, 107, 53, 0.5);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 
+            0 12px 35px rgba(255, 107, 53, 0.6),
+            0 0 0 8px rgba(255, 107, 53, 0.1);
+        animation-play-state: paused;
         background: linear-gradient(45deg, #f7931e, #ff6b35);
         color: white;
     }
     
+    .btn-add-to-cart:active {
+        transform: translateY(-1px) scale(0.98);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
     .btn-secondary-action {
         background: linear-gradient(45deg, #28a745, #20c997);
         border: none;
@@ -524,10 +542,10 @@
                         </div>
 
                         <!-- Product Actions -->
-                        <div class="d-flex gap-3 mb-4">
-                            <!-- Nút Mua Ngay -->
-                            <button type="submit" name="buy_now" value="1" class="btn btn-add-to-cart flex-fill">
-                                <i class="fas fa-shopping-cart me-2"></i>MUA NGAY
+                        <div class="d-flex gap-3 mb-4">                            <!-- Nút Mua Ngay -->
+                            <button type="submit" name="buy_now" value="1" class="btn btn-add-to-cart flex-fill" 
+                                    title="Thêm vào giỏ hàng và chuyển thẳng đến trang thanh toán">
+                                <i class="fas fa-bolt me-2"></i>MUA NGAY - THANH TOÁN
                             </button>
                         </div>
                           
@@ -858,9 +876,12 @@ function validateForm() {
     return true;
 }
 
-// Add form validation
+// Enhanced Buy Now button functionality
 document.addEventListener('DOMContentLoaded', function() {
+    const buyNowBtn = document.querySelector('button[name="buy_now"]');
     const productForm = document.getElementById('productForm');
+    
+    // Simple validation for form submit
     if (productForm) {
         productForm.addEventListener('submit', function(e) {
             if (!validateForm()) {

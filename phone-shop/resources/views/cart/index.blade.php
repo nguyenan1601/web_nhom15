@@ -154,12 +154,11 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="d-flex justify-content-end mt-3 gap-2">
+    </div>    <div class="d-flex justify-content-end mt-3 gap-2">
         <a href="{{ route('phones.index') }}" class="btn btn-success me-2">
             <i class="bi bi-arrow-left-circle"></i> Tiếp tục mua hàng
         </a>
-        <a href="#" class="btn btn-primary">
+        <a href="{{ route('checkout.index') }}" class="btn btn-primary">
             <i class="bi bi-credit-card"></i> Thanh toán
         </a>
     </div>

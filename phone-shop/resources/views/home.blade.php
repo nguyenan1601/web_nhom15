@@ -252,6 +252,34 @@ trường Việt Nam.')
         transform: scale(1.1);
     }
 }
+
+/* Hiệu ứng hover cho ảnh sản phẩm có thể click */
+.product-card .position-relative a:hover .product-image,
+.deal-card .position-relative a:hover .deal-image {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.product-card .position-relative a,
+.deal-card .position-relative a {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.product-card .position-relative a:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.deal-card .position-relative a:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Thêm cursor pointer cho ảnh */
+.product-image, .deal-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 </style>
 
 <section class="py-5 hot-deals-section text-white position-relative">
@@ -276,9 +304,11 @@ trường Việt Nam.')
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card deal-card bg-white text-dark h-100">
                     <div class="position-relative p-3">
-                        <img src="{{ $deal->image_path ? asset($deal->image_path) : asset('images/default-phone.png') }}"
-                            class="card-img-top deal-image" alt="{{ $deal->name }}"
-                            style="height: 220px; object-fit: contain;">
+                        <a href="{{ route('phones.show', $deal) }}" class="d-block">
+                            <img src="{{ $deal->image_path ? asset($deal->image_path) : asset('images/default-phone.png') }}"
+                                class="card-img-top deal-image" alt="{{ $deal->name }}"
+                                style="height: 220px; object-fit: contain;">
+                        </a>
                         <span class="discount-badge position-absolute" style="top: 15px; right: 15px;">
                             -{{ number_format($deal->discount_percentage, 0) }}%
                         </span>
@@ -362,8 +392,10 @@ trường Việt Nam.')
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card deal-card bg-white text-dark h-100">
                     <div class="position-relative p-3">
-                        <img src="{{ asset($deal['image_path']) }}" class="card-img-top deal-image"
-                            alt="{{ $deal['name'] }}" style="height: 220px; object-fit: contain;">
+                        <a href="{{ route('phones.show', $deal['id']) }}" class="d-block">
+                            <img src="{{ asset($deal['image_path']) }}" class="card-img-top deal-image"
+                                alt="{{ $deal['name'] }}" style="height: 220px; object-fit: contain;">
+                        </a>
                         <span class="discount-badge position-absolute" style="top: 15px; right: 15px;">
                             -{{ $deal['discount_percentage'] }}%
                         </span>
@@ -425,6 +457,7 @@ trường Việt Nam.')
         @php
         $sampleFeaturedPhones = [
         [
+        'id' => 1,
         'name' => 'iPhone 15 Pro',
         'brand' => 'Apple',
         'price' => 28990000,
@@ -435,6 +468,7 @@ trường Việt Nam.')
         'image_path' => 'images/iPhone 15 Pro Max crop.png'
         ],
         [
+        'id' => 2,
         'name' => 'Samsung Galaxy S24',
         'brand' => 'Samsung',
         'price' => 22990000,
@@ -443,6 +477,7 @@ trường Việt Nam.')
         'image_path' => 'images/Samsung Galaxy S24 Ultra crop.png'
         ],
         [
+        'id' => 3,
         'name' => 'Xiaomi 14',
         'brand' => 'Xiaomi',
         'price' => 15990000,
@@ -453,6 +488,7 @@ trường Việt Nam.')
         'image_path' => 'images/Xiaomi 14 Ultra crop.png'
         ],
         [
+        'id' => 4,
         'name' => 'Oppo Find X7',
         'brand' => 'Oppo',
         'price' => 18990000,
@@ -473,9 +509,11 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : asset('images/default-phone.png') }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 200px; object-fit: contain;">
+                        <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="d-block">
+                            <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : asset('images/default-phone.png') }}"
+                                class="card-img-top product-image" alt="{{ $phone->name }}"
+                                style="height: 200px; object-fit: contain;">
+                        </a>
 
                         @if(isset($phone->discount_percentage) && $phone->discount_percentage > 0)
                         <span class="badge bg-danger position-absolute" style="top: 10px; right: 10px;">
@@ -512,7 +550,7 @@ trường Việt Nam.')
                                 <small class="text-muted">
                                     <i class="fas fa-eye me-1"></i>{{ $phone->view_count }} lượt xem
                                 </small>
-                                <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-info-circle me-1"></i>Chi tiết
                                 </a>
                             </div>
@@ -540,17 +578,17 @@ trường Việt Nam.')
 
         @php
         $sampleLatestPhones = [
-        ['name' => 'iPhone 15 Plus', 'brand' => 'Apple', 'price' => 25990000, 'image_path' =>
+        ['id' => 5, 'name' => 'iPhone 15 Plus', 'brand' => 'Apple', 'price' => 25990000, 'image_path' =>
         'images/iPhone 15 Pro Max crop.png'],
-        ['name' => 'Galaxy A55', 'brand' => 'Samsung', 'price' => 10990000, 'image_path' =>
+        ['id' => 6, 'name' => 'Galaxy A55', 'brand' => 'Samsung', 'price' => 10990000, 'image_path' =>
         'images/Galaxy A55 crop.png'],
-        ['name' => 'Redmi Note 13', 'brand' => 'Xiaomi', 'price' => 5990000, 'image_path' =>
+        ['id' => 7, 'name' => 'Redmi Note 13', 'brand' => 'Xiaomi', 'price' => 5990000, 'image_path' =>
         'images/Redmi Note 13 crop.png'],
-        ['name' => 'Oppo A79', 'brand' => 'Oppo', 'price' => 6990000, 'image_path' =>
+        ['id' => 8, 'name' => 'Oppo A79', 'brand' => 'Oppo', 'price' => 6990000, 'image_path' =>
         'images/Oppo A79 crop.png'],
-        ['name' => 'Vivo Y36', 'brand' => 'Vivo', 'price' => 4990000, 'image_path' =>
+        ['id' => 9, 'name' => 'Vivo Y36', 'brand' => 'Vivo', 'price' => 4990000, 'image_path' =>
         'images/Vivo Y36 crop.png'],
-        ['name' => 'Realme 11', 'brand' => 'Realme', 'price' => 7990000, 'image_path' =>
+        ['id' => 10, 'name' => 'Realme 11', 'brand' => 'Realme', 'price' => 7990000, 'image_path' =>
         'images/Realme_11.png']
         ];
 
@@ -564,9 +602,11 @@ trường Việt Nam.')
             <div class="col-6 col-md-4 col-lg-2 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 150px; object-fit: contain;">
+                        <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="d-block">
+                            <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
+                                class="card-img-top product-image" alt="{{ $phone->name }}"
+                                style="height: 150px; object-fit: contain;">
+                        </a>
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
                             <i class="fas fa-sparkles me-1"></i>Mới
@@ -579,7 +619,7 @@ trường Việt Nam.')
 
                         <div class="mt-auto">
                             <div class="fw-bold text-primary small mb-2">{{ number_format($phone->price) }}₫</div>
-                            <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm w-100">
+                            <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="btn btn-primary btn-sm w-100">
                                 Xem
                             </a>
                         </div>
@@ -601,13 +641,13 @@ trường Việt Nam.')
 
         @php
         $sampleBestSellers = [
-        ['name' => 'iPhone 14', 'brand' => 'Apple', 'price' => 19990000, 'view_count' => 2450, 'image_path' =>
+        ['id' => 11, 'name' => 'iPhone 14', 'brand' => 'Apple', 'price' => 19990000, 'view_count' => 2450, 'image_path' =>
         'images/iPhone 14 crop.png'],
-        ['name' => 'Galaxy A54', 'brand' => 'Samsung', 'price' => 9990000, 'view_count' => 1890, 'image_path' =>
+        ['id' => 12, 'name' => 'Galaxy A54', 'brand' => 'Samsung', 'price' => 9990000, 'view_count' => 1890, 'image_path' =>
         'images/Galaxy A54 crop.png'],
-        ['name' => 'Redmi 12', 'brand' => 'Xiaomi', 'price' => 4990000, 'view_count' => 1650, 'image_path' =>
+        ['id' => 13, 'name' => 'Redmi 12', 'brand' => 'Xiaomi', 'price' => 4990000, 'view_count' => 1650, 'image_path' =>
         'images/Redmi 12 crop.png'],
-        ['name' => 'Oppo A58', 'brand' => 'Oppo', 'price' => 5490000, 'view_count' => 1320, 'image_path' =>
+        ['id' => 14, 'name' => 'Oppo A58', 'brand' => 'Oppo', 'price' => 5490000, 'view_count' => 1320, 'image_path' =>
         'images/Oppo A58 crop.png']
         ];
 
@@ -622,9 +662,11 @@ trường Việt Nam.')
             <div class="col-6 col-lg-3 mb-4">
                 <div class="card product-card h-100 shadow-sm">
                     <div class="position-relative">
-                        <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
-                            class="card-img-top product-image" alt="{{ $phone->name }}"
-                            style="height: 200px; object-fit: contain;">
+                        <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="d-block">
+                            <img src="{{ isset($phone->image_path) ? asset($phone->image_path) : (isset($phone->image) ? asset($phone->image) : asset('images/default-phone.png')) }}"
+                                class="card-img-top product-image" alt="{{ $phone->name }}"
+                                style="height: 200px; object-fit: contain;">
+                        </a>
 
                         <span class="badge bg-success position-absolute" style="top: 10px; left: 10px;">
                             <i class="fas fa-fire me-1"></i>Hot
@@ -641,7 +683,7 @@ trường Việt Nam.')
                                 <small class="text-success">
                                     <i class="fas fa-eye me-1"></i>{{ $phone->view_count }} views
                                 </small>
-                                <a href="{{ route('phones.show', $phone) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('phones.show', $phone->id ?? $phone['id']) }}" class="btn btn-primary btn-sm">
                                     Chi tiết
                                 </a>
                             </div>
