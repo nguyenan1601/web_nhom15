@@ -14,9 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         // Chạy seeders theo thứ tự để tránh lỗi foreign key
         $this->call([
+            AdminSeeder::class,
             BrandSeeder::class,
             CategorySeeder::class,
             PhoneSeeder::class,
+            UserSeeder::class,
         ]);
         
         $this->command->info('🎉 Database seeding completed successfully!');

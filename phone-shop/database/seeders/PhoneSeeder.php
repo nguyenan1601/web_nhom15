@@ -271,7 +271,10 @@ class PhoneSeeder extends Seeder
         ];
 
         foreach ($phones as $phone) {
-            Phone::create($phone);
+Phone::updateOrCreate(
+    ['sku' => $phone['sku']],
+    $phone
+);
         }
     }
 }

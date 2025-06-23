@@ -6,6 +6,8 @@ use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +69,33 @@ Route::middleware('auth')->group(function () {
     // Checkout success và show (cần đăng nhập)
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/order/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
+});
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Quản lý người dùng (admin)
+    Route::prefix('admin')->group(function () {
+        Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+        Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
+    });
+    
+    // Quản lý sản phẩm (admin)
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+        Route::get('/phones', [\App\Http\Controllers\PhoneController::class, 'adminIndex'])->name('admin.phones.index');
+        Route::get('/phones/create', [\App\Http\Controllers\PhoneController::class, 'create'])->name('admin.phones.create');
+        Route::post('/phones', [\App\Http\Controllers\PhoneController::class, 'store'])->name('admin.phones.store');
+        Route::get('/phones/{phone}/edit', [\App\Http\Controllers\PhoneController::class, 'edit'])->name('admin.phones.edit');
+        Route::put('/phones/{phone}', [\App\Http\Controllers\PhoneController::class, 'update'])->name('admin.phones.update');
+        Route::delete('/phones/{phone}', [\App\Http\Controllers\PhoneController::class, 'destroy'])->name('admin.phones.destroy');
+    });
+    
+    // Quản lý đơn hàng (admin)
+    Route::prefix('admin')->group(function () {
+        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'adminIndex'])->name('admin.orders.index');
+        // ...các route khác cho xử lý đơn hàng nếu cần...
+    });
 });
 
 Route::get('/check-url', function () {

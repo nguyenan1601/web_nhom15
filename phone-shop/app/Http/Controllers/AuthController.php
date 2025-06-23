@@ -46,17 +46,18 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember');        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            
             // Merge session cart to user cart when login
             Cart::mergeSessionToUser(session()->getId(), Auth::id());
-            
             // Kiểm tra nếu có redirect_after_login trong session
             if ($request->session()->has('redirect_after_login')) {
                 $redirectUrl = $request->session()->get('redirect_after_login');
                 $request->session()->forget('redirect_after_login');
                 return redirect()->to($redirectUrl)->with('success', 'Đăng nhập thành công!');
             }
-            
+            // Nếu là admin thì chuyển về dashboard admin
+            if (Auth::user()->is_admin) {
+                return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập admin thành công!');
+            }
             // Chuyển hướng đến trang được yêu cầu trước đó hoặc trang chủ
             return redirect()->intended(route('home'))->with('success', 'Đăng nhập thành công!');
         }
@@ -136,7 +137,7 @@ class AuthController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',

@@ -64,7 +64,9 @@ class PhoneController extends Controller
      */
     public function create()
     {
-        //
+        $brands = \App\Models\Brand::active()->ordered()->get();
+        $categories = \App\Models\Category::active()->ordered()->get();
+        return view('admin.phones.create', compact('brands', 'categories'));
     }
 
     /**
@@ -72,7 +74,17 @@ class PhoneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'status' => 'required|string',
+            'image_path' => 'nullable|string',
+        ]);
+        $phone = \App\Models\Phone::create($validated);
+        return redirect()->route('admin.phones.index')->with('success', 'Đã thêm sản phẩm mới!');
     }
 
     /**
@@ -105,24 +117,46 @@ class PhoneController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Phone $phone)
+    public function edit(\App\Models\Phone $phone)
     {
-        //
+        $brands = \App\Models\Brand::active()->ordered()->get();
+        $categories = \App\Models\Category::active()->ordered()->get();
+        return view('admin.phones.edit', compact('phone', 'brands', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Phone $phone)
+    public function update(Request $request, \App\Models\Phone $phone)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'status' => 'required|string',
+            'image_path' => 'nullable|string',
+        ]);
+        $phone->update($validated);
+        return redirect()->route('admin.phones.index')->with('success', 'Đã cập nhật sản phẩm!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Phone $phone)
+    public function destroy(\App\Models\Phone $phone)
     {
-        //
+        $phone->delete();
+        return redirect()->route('admin.phones.index')->with('success', 'Đã xoá sản phẩm!');
+    }
+
+    /**
+     * Trang quản trị sản phẩm cho admin
+     */
+    public function adminIndex()
+    {
+        $phones = Phone::with(['brand', 'category'])->orderBy('created_at', 'desc')->paginate(12);
+        return view('admin.phones.index', compact('phones'));
     }
 }

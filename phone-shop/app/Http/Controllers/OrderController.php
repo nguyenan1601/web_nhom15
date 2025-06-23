@@ -95,4 +95,15 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công.');
     }
+
+    /**
+     * Trang quản trị đơn hàng cho admin
+     */
+    public function adminIndex()
+    {
+        $orders = Order::with(['orderItems.phone', 'customer'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
+        return view('admin.orders.index', compact('orders'));
+    }
 }

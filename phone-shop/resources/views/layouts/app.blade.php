@@ -371,6 +371,14 @@
                                 </li>
                             </ul>
                         </li>
+
+                        @if(Auth::user()->is_admin)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tools me-1"></i>Quản Trị
+                                </a>
+                            </li>
+                        @endif
                     @else
                         <!-- User is not logged in -->
                         <li class="nav-item">
