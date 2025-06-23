@@ -12,11 +12,7 @@ class Category extends Model
     protected $table = 'categories'; // bảng categories
 
     protected $fillable = [
-        'name', 'status', 'sort_order', 'created_at', 'updated_at'
-    ];
-
-    protected $casts = [
-        'sort_order' => 'integer'
+        'name', 'description', 'created_at', 'updated_at'
     ];
 
     // Relationships
@@ -28,12 +24,12 @@ class Category extends Model
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('status', 'active');
+        return $query; // Không lọc theo status vì không có cột này
     }
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order')->orderBy('name');
+        return $query->orderBy('name'); // Sắp xếp theo name thay vì sort_order
     }
 
     // Accessors
@@ -42,11 +38,9 @@ class Category extends Model
         return $this->phones()->where('status', 'active')->count();
     }
 
-    // Lấy danh sách category đang active, sắp xếp theo sort_order
+    // Lấy danh sách category, sắp xếp theo name
     public static function getAllCategories()
     {
-        return self::where('status', 'active')
-            ->orderBy('sort_order')
-            ->get();
+        return self::orderBy('name')->get();
     }
 }

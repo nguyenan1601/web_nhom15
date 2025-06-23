@@ -10,7 +10,8 @@ use App\Models\User;
 use App\Models\Cart;
 
 class AuthController extends Controller
-{    /**
+{
+    /**
      * Hiển thị form đăng nhập
      */
     public function showLoginForm(Request $request)
