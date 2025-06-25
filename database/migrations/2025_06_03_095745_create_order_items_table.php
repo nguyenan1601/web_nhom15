@@ -29,6 +29,8 @@ return new class extends Migration
             $table->unsignedInteger('quantity');
             $table->decimal('unit_price', 15, 2); // Giá đơn vị tại thời điểm mua
             $table->decimal('total_price', 15, 2); // Tổng tiền (unit_price * quantity)
+            $table->decimal('discount_amount', 15, 2)->default(0); // Số tiền giảm giá
+            $table->text('warranty_info')->nullable(); // Thông tin bảo hành
             
             // Additional columns from update migration
             $table->decimal('price', 15, 2); // Giá sản phẩm

@@ -45,6 +45,8 @@ class CartController extends Controller
      */
     public function add(Request $request, $id)
     {
+
+        
         $phone = Phone::findOrFail($id);
         
         // Validate input
@@ -72,11 +74,19 @@ class CartController extends Controller
             
             if ($currentQuantity + $request->quantity > $phone->stock_quantity) {
                 return redirect()->back()->with('error', 'Số lượng vượt quá tồn kho!');
-            }            Cart::addToCart($id, $request->quantity, $request->color, $userId, $sessionId);            // Check if this is a "buy now" request
+            }            Cart::addToCart($id, $request->quantity, $request->color, $userId, $sessionId);
+
+            // Check if this is a "buy now" request
             if ($request->has('buy_now') && $request->buy_now == '1') {
                 return redirect()->route('checkout.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng! Tiến hành thanh toán.');
             }
 
+            // Check if this is just adding to cart
+            if ($request->has('action') && $request->action == 'add_to_cart') {
+                return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
+            }
+
+            // Default response if neither buy_now nor action is specified
             return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
         } catch (\Exception $e) {
             Log::error('Error adding to cart: ' . $e->getMessage());
