@@ -17,14 +17,14 @@
                     <a href="{{ route('profile') }}" class="list-group-item list-group-item-action active">
                         <i class="fas fa-user me-2"></i>Thông tin cá nhân
                     </a>
-                    <a href="{{ route('orders.index') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('customer.orders.index') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-shopping-bag me-2"></i>Đơn hàng của tôi
                     </a>
                     <a href="{{ route('cart.index') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-shopping-cart me-2"></i>Giỏ hàng
                     </a>
                     <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-danger"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
                     </a>
                 </div>
@@ -41,21 +41,21 @@
                 </div>
                 <div class="card-body">
                     @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
                     @endif
 
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Có lỗi xảy ra:</h6>
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Có lỗi xảy ra:</h6>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
                     <form method="POST" action="{{ route('profile.update') }}">
@@ -67,14 +67,10 @@
                                 <label for="name" class="form-label">
                                     <i class="fas fa-user me-1"></i>Họ và tên <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" 
-                                       class="form-control @error('name') is-invalid @enderror" 
-                                       id="name" 
-                                       name="name" 
-                                       value="{{ old('name', Auth::user()->name) }}" 
-                                       required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                    name="name" value="{{ old('name', Auth::user()->name) }}" required>
                                 @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -82,14 +78,10 @@
                                 <label for="email" class="form-label">
                                     <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
                                 </label>
-                                <input type="email" 
-                                       class="form-control @error('email') is-invalid @enderror" 
-                                       id="email" 
-                                       name="email" 
-                                       value="{{ old('email', Auth::user()->email) }}" 
-                                       required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                    name="email" value="{{ old('email', Auth::user()->email) }}" required>
                                 @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -98,13 +90,10 @@
                             <label for="phone" class="form-label">
                                 <i class="fas fa-phone me-1"></i>Số điện thoại
                             </label>
-                            <input type="tel" 
-                                   class="form-control @error('phone') is-invalid @enderror" 
-                                   id="phone" 
-                                   name="phone" 
-                                   value="{{ old('phone', Auth::user()->phone) }}">
+                            <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                                name="phone" value="{{ old('phone', Auth::user()->phone) }}">
                             @error('phone')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -121,17 +110,14 @@
                                     <i class="fas fa-lock me-1"></i>Mật khẩu mới
                                 </label>
                                 <div class="input-group">
-                                    <input type="password" 
-                                           class="form-control @error('password') is-invalid @enderror" 
-                                           id="password" 
-                                           name="password" 
-                                           placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password" placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)">
                                     <button type="button" class="btn btn-outline-secondary" id="togglePassword">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -140,11 +126,8 @@
                                     <i class="fas fa-lock me-1"></i>Xác nhận mật khẩu mới
                                 </label>
                                 <div class="input-group">
-                                    <input type="password" 
-                                           class="form-control" 
-                                           id="password_confirmation" 
-                                           name="password_confirmation" 
-                                           placeholder="Nhập lại mật khẩu mới">
+                                    <input type="password" class="form-control" id="password_confirmation"
+                                        name="password_confirmation" placeholder="Nhập lại mật khẩu mới">
                                     <button type="button" class="btn btn-outline-secondary" id="togglePasswordConfirm">
                                         <i class="fas fa-eye"></i>
                                     </button>
@@ -183,8 +166,10 @@
                             <p><strong>Số điện thoại:</strong> {{ Auth::user()->phone ?: 'Chưa cập nhật' }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Ngày tạo tài khoản:</strong> {{ Auth::user()->created_at->format('d/m/Y H:i') }}</p>
-                            <p><strong>Cập nhật lần cuối:</strong> {{ Auth::user()->updated_at->format('d/m/Y H:i') }}</p>
+                            <p><strong>Ngày tạo tài khoản:</strong> {{ Auth::user()->created_at->format('d/m/Y H:i') }}
+                            </p>
+                            <p><strong>Cập nhật lần cuối:</strong> {{ Auth::user()->updated_at->format('d/m/Y H:i') }}
+                            </p>
                             <p><strong>Trạng thái:</strong> <span class="badge bg-success">Hoạt động</span></p>
                         </div>
                     </div>
@@ -212,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            
+
             const icon = this.querySelector('i');
             icon.classList.toggle('fa-eye');
             icon.classList.toggle('fa-eye-slash');
@@ -223,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePasswordConfirm.addEventListener('click', function() {
             const type = passwordConfirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordConfirmInput.setAttribute('type', type);
-            
+
             const icon = this.querySelector('i');
             icon.classList.toggle('fa-eye');
             icon.classList.toggle('fa-eye-slash');
@@ -234,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
     passwordConfirmInput.addEventListener('input', function() {
         const password = passwordInput.value;
         const confirmPassword = this.value;
-        
+
         if (password && confirmPassword && password !== confirmPassword) {
             this.setCustomValidity('Mật khẩu xác nhận không khớp');
             this.classList.add('is-invalid');

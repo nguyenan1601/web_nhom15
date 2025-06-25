@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\OrderManagementController;
+use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,6 +74,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
 });
 
+// Routes cho khách hàng quản lý đơn hàng
+Route::middleware('auth')->group(function () {
+    Route::prefix('my')->group(function () {
+        Route::get('/orders', [CustomerOrderController::class, 'index'])->name('customer.orders.index');
+        Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->name('customer.orders.show');
+        Route::patch('/orders/{order}/confirm-received', [CustomerOrderController::class, 'confirmReceived'])->name('customer.orders.confirm-received');
+        Route::patch('/orders/{order}/cancel', [CustomerOrderController::class, 'cancel'])->name('customer.orders.cancel');
+    });
+});
+
 // Admin Routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -94,8 +106,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     // Quản lý đơn hàng (admin)
     Route::prefix('admin')->group(function () {
-        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'adminIndex'])->name('admin.orders.index');
-        // ...các route khác cho xử lý đơn hàng nếu cần...
+        Route::get('/orders', [OrderManagementController::class, 'index'])->name('admin.orders.index');
+        Route::get('/orders/{order}', [OrderManagementController::class, 'show'])->name('admin.orders.show');
+        Route::patch('/orders/{order}/confirm', [OrderManagementController::class, 'confirm'])->name('admin.orders.confirm');
+        Route::patch('/orders/{order}/process', [OrderManagementController::class, 'process'])->name('admin.orders.process');
+        Route::patch('/orders/{order}/ship', [OrderManagementController::class, 'ship'])->name('admin.orders.ship');
+        Route::patch('/orders/{order}/mark-delivered', [OrderManagementController::class, 'markDelivered'])->name('admin.orders.mark-delivered');
+        Route::patch('/orders/{order}/cancel', [OrderManagementController::class, 'cancel'])->name('admin.orders.cancel');
     });
 });
 

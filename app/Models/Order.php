@@ -40,9 +40,14 @@ class Order extends Model
         'shipping_country',
         'notes',
         'coupon_code',
+        'confirmed_at',
+        'confirmed_by',
         'shipped_at',
+        'shipped_by',
         'delivered_at',
-        'tracking_info'
+        'completed_at',
+        'tracking_info',
+        'admin_notes'
     ];
 
     protected $casts = [
@@ -52,8 +57,10 @@ class Order extends Model
         'discount_amount' => 'decimal:0',
         'total_amount' => 'decimal:0',
         'paid_at' => 'datetime',
+        'confirmed_at' => 'datetime',
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
+        'completed_at' => 'datetime',
         'tracking_info' => 'json'
     ];
 
@@ -61,6 +68,16 @@ class Order extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function confirmedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'confirmed_by');
+    }
+
+    public function shippedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'shipped_by');
     }
 
     public function orderItems(): HasMany

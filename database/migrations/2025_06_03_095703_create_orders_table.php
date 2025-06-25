@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('order_number')->unique();
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'completed', 'cancelled'])->default('pending');
             $table->decimal('subtotal', 15, 2)->default(0);
             $table->decimal('tax_amount', 15, 2)->default(0);
             $table->decimal('shipping_fee', 15, 2)->default(0);
@@ -44,14 +44,21 @@ return new class extends Migration
             // Additional fields
             $table->text('notes')->nullable();
             $table->string('coupon_code')->nullable();
+            $table->timestamp('confirmed_at')->nullable();
+            $table->unsignedBigInteger('confirmed_by')->nullable();
             $table->timestamp('shipped_at')->nullable();
+            $table->unsignedBigInteger('shipped_by')->nullable();
             $table->timestamp('delivered_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->json('tracking_info')->nullable();
+            $table->text('admin_notes')->nullable();
             
             $table->timestamps();
             
             // Foreign key
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
+            $table->foreign('confirmed_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('shipped_by')->references('id')->on('users')->onDelete('set null');
         });
         
         // Re-enable foreign key checks

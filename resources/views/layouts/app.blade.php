@@ -358,7 +358,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('orders.index') }}">
+                                    <a class="dropdown-item" href="{{ route('customer.orders.index') }}">
                                         <i class="fas fa-shopping-bag me-2"></i>Đơn hàng của tôi
                                     </a>
                                 </li>
